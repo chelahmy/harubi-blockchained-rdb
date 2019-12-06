@@ -1,2 +1,2 @@
-# harubi-front
-A harubi front-end. 
+# Harubi Front
+Harubi Front is a front-end framework based on [React](https://reactjs.org) and [Foundation](https://foundation.zurb.com). This front-end is loosely coupled with harubi back-end. [Harubi](https://github.com/chelahmy/harubi) is all about back-ends. Harubi does not dictate on front-end. This front-end framework is just a proposal for harubi. Anyone can come up with different front-ends for harubi. On the other hand, Harubi Front does not have to use harubi as back-end. Decoupling front-end and back-end prevents code fusion, which loosens concerns of development.
