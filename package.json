@@ -1,0 +1,41 @@
+{
+  "name": "foundation-react-template",
+  "version": "1.0.0",
+  "description": "A fusion between Foundation and React for front-end development",
+  "main": "gulpfile.js",
+  "scripts": {
+    "start": "gulp",
+    "build": "gulp copy-js-libs copy-src sass react",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Abdullah Daud <chelahmy@gmail.com>",
+  "license": "MIT",
+  "browserslist": [
+    "last 1 version",
+    "> 1%",
+    "maintained node versions",
+    "not dead"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.6.3",
+    "autoprefixer": "^9.6.5",
+    "babel-loader": "^8.0.6",
+    "browser-sync": "^2.26.7",
+    "gulp": "^4.0.2",
+    "gulp-load-plugins": "^2.0.1",
+    "gulp-postcss": "^8.0.0",
+    "gulp-sass": "^4.0.2",
+    "webpack": "^4.41.2",
+    "webpack-stream": "^5.2.1"
+  },
+  "dependencies": {
+    "foundation-sites": "^6.5.3",
+    "jquery": "^3.4.1",
+    "motion-ui": "^2.0.3",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
+    "what-input": "^5.2.6"
+  }
+}
