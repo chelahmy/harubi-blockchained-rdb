@@ -1,5 +1,6 @@
 import React from 'react'
 import Title from './title'
+import NarrowColumn from './narrow_column'
 import Space from './space'
 import Callout from './callout'
 import Foundation from 'foundation-sites'
@@ -76,22 +77,20 @@ export default class Form extends React.Component {
     return (
       <div>
         <Title title={this.props.title}/>
-        <div class="grid-x grid-padding-x">
-          <div class="cell small-10 small-offset-1 medium-8 medium-offset-2 large-6 large-offset-3">
-            <Callout link={this.handleCalloutLink}/>
-            <form data-abide noValidate
-              ref={this.myRef}
-              id={this.props.myid}
-              onReset={this.handleOnReset}>
-              {this.props.children}
-              <div class="vertical-space-separator"/>
-              <div class="text-center">
-                <button class="button" type="submit">{submitVal}</button>
-                {reset}
-              </div>
-            </form>
-          </div>
-        </div>
+        <NarrowColumn>
+          <Callout link={this.handleCalloutLink}/>
+          <form data-abide noValidate
+            ref={this.myRef}
+            id={this.props.myid}
+            onReset={this.handleOnReset}>
+            {this.props.children}
+            <div class="vertical-space-separator"/>
+            <div class="text-center">
+              <button class="button" type="submit">{submitVal}</button>
+              {reset}
+            </div>
+          </form>
+        </NarrowColumn>
       </div>
     )
   }

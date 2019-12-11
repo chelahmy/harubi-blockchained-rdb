@@ -12,6 +12,7 @@ let Settings = {
       button_menu: 'signup',
       body: {
         content: 'home.html',
+        column: 'wide', // narrow, medium, wide or full
         component: 'body'
       }
     },

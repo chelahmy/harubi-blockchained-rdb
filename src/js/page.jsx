@@ -36,7 +36,8 @@ export default class Page extends React.Component {
     if (typeof page_settings.body !== 'undefined') {
       let comp = page_settings.body.component
       if (comp == 'body')
-        body = (<Body title={title} src={page_settings.body.content}/>)
+        body = (<Body title={title} src={page_settings.body.content}
+          column={page_settings.body.column}/>)
       else if (comp == 'signup')
         body = (<SignUp title={title}/>)
     }
