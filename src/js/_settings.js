@@ -1,15 +1,16 @@
-let Settings = {
+const Settings = {
   title: "Harubi Front",
   menu: {
     home: 'Home',
+    about: 'About',
+    signup: 'Sign Up',
     signin: 'Sign In',
-    signup: 'Sign Up'
+    signout: 'Sign Out'
   },
   pages: {
     home: {
       title: 'Home',
-      menu: ['signin'],
-      button_menu: 'signup',
+      menu: ['about'],
       body: {
         content: 'home.html',
         column: 'wide', // narrow, medium, wide or full
@@ -28,6 +29,10 @@ let Settings = {
       }
     }
   }
+}
+
+function GetMenuLabel(menu_item) {
+  return Settings.menu[menu_item]
 }
 
 function GetPageSettings(page) {
@@ -54,4 +59,4 @@ function GetPageSettings(page) {
   return settings
 }
 
-export {Settings as default, GetPageSettings}
+export {Settings as default, GetMenuLabel, GetPageSettings}

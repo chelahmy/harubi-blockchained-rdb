@@ -1,5 +1,5 @@
 import React from 'react'
-import {Settings, GetPageSettings} from './_settings'
+import {GetMenuLabel, GetPageSettings} from './_settings'
 import Header from './header'
 import Body from './body'
 import SignUp from './signup'
@@ -8,16 +8,35 @@ export default class Page extends React.Component {
   constructor(props) {
     super(props)
     this.handleMenuClick = this.handleMenuClick.bind(this)
+    this.assignUserMenus = this.assignUserMenus.bind(this)
     this.state = {page_name: 'home'}
   }
 
   handleMenuClick(item) {
     console.log(item)
-    if (item == 'back') {
-      // some back button presses may point to certain pages
-      item = 'home'
+    if (item == 'back') { // back button pressed
+      // TODO: Restore previous state
+      item = 'home' // default (and TODO: clear all preserved states)
+    } else { // menu pressed
+      // TODO: Preserve current state
     }
     this.setState({page_name: item})
+  }
+
+  // Default user menus are signup, signin and signout.
+  // All disallowed menus will be removed.
+  assignUserMenus(page, menu, button_menu) {
+    if (page != 'signup' && page != 'signin' && page != 'signout') {
+      if (typeof menu === 'undefined')
+        menu = []
+      // If user has not signed in
+      if (typeof button_menu === 'object') {
+        menu.push(button_menu)
+      }
+      menu.push({name: 'signin', label: GetMenuLabel('signin')})
+      button_menu = {name: 'signup', label: GetMenuLabel('signup')}
+    }
+    return {menu: menu, button_menu: button_menu}
   }
 
   render() {
@@ -32,6 +51,10 @@ export default class Page extends React.Component {
 
     if (typeof page_settings.button_menu !== 'undefined')
       button_menu = page_settings.button_menu
+
+    let signing = this.assignUserMenus(page, menu, button_menu)
+    menu = signing.menu
+    button_menu = signing.button_menu
 
     if (typeof page_settings.body !== 'undefined') {
       let comp = page_settings.body.component
