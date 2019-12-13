@@ -3,6 +3,8 @@ Harubi Front is a front-end web applications framework based on [React](https://
 
 React is used for structuring. And Foundation is used for micro-structuring and theming. Analogously, React is used to construct a building, and Foundation is used to finish it. Both of them make a powerful front-end framework. Coupling with harubi [model-action](https://github.com/chelahmy/harubi/tree/master/templates/models) pattern all of them make a great development framework.
 
+A typical Harubi Front application visitors may sign up as users. And a user must sign in to access authenticated areas. The menus for signing up and signing in are made prominent on the home page to indicate a user-based web application. Menus are important in Harubi Front, and they are associated with actions in the harubi model-action pattern. Menus are kept minimal according to the pages a user is on.
+
 ![](docs/harubi-front-home.png)
 
 React and Foundation: Forms for signing up, signing in and other actions are based on Foundation Form Abide. The top bar and its menus are also based on Foundation. The responsive styling is also based on Foundation. Anything visible is being styled with Foundation. However, underneath all of them is a structure based on crafted React components. Harubi Front development always starts with React structuring.
