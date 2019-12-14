@@ -1,4 +1,5 @@
 const gulp          = require('gulp')
+const connect				= require('gulp-connect-php')
 const webpack       = require('webpack-stream')
 const browserSync   = require('browser-sync').create()
 const $             = require('gulp-load-plugins')()
@@ -62,8 +63,13 @@ let copy_icons = () => {
 }
 
 let serve = () => {
-	browserSync.init({
-		server: './dist'
+	connect.server({
+			base: './dist'
+		}, function (){
+		browserSync.init({
+			//server: './dist'
+			proxy: '127.0.0.1:8000'
+		})
 	})
 
 	gulp.watch('src/scss/*.scss', sass).on('change', browserSync.reload)
