@@ -34,7 +34,7 @@ let react = () => {
 					test: /\.jsx?$/,
 					loader: 'babel-loader',
 					options: {
-						presets: ['@babel/env', '@babel/react'] 
+						presets: ['@babel/env', '@babel/react']
 					}
 				}]
 			},
@@ -46,18 +46,12 @@ let react = () => {
 		.pipe(browserSync.stream())
 }
 
-let copy_src = () => {
+let copy_statics = () => {
 	return gulp.src([
-			'src/*.html'
+			'src/*.html',
+			'src/**/img/*.*'
 		])
 		.pipe(gulp.dest('./dist'))
-}
-
-let copy_img = () => {
-	return gulp.src([
-			'src/img/*.*'
-		])
-		.pipe(gulp.dest('./dist/img'))
 }
 
 let copy_icons = () => {
@@ -72,16 +66,14 @@ let serve = () => {
 		server: './dist'
 	})
 
-	gulp.watch('src/scss/*.scss', sass)
-	gulp.watch(['src/js/*.js', 'src/js/*.jsx'], react)
-	gulp.watch('src/*.html', copy_src).on('change', browserSync.reload)
+	gulp.watch('src/scss/*.scss', sass).on('change', browserSync.reload)
+	gulp.watch(['src/js/*.js', 'src/js/*.jsx'], react).on('change', browserSync.reload)
+	gulp.watch(['src/*.html', 'src/img/*.*'], copy_statics).on('change', browserSync.reload)
 }
 
-gulp.task('copy-src', copy_src)
-gulp.task('copy-img', copy_img)
+gulp.task('copy-statics', copy_statics)
 gulp.task('copy-icons', copy_icons)
 gulp.task('sass', sass)
 gulp.task('react', react)
-gulp.task('serve', gulp.series('copy-src', 'copy-img', 'copy-icons', 'sass', 'react', serve))
-gulp.task('default', gulp.series('copy-src', 'copy-img', 'copy-icons', 'sass', 'react', serve))
-
+gulp.task('serve', gulp.series('copy-statics', 'copy-icons', 'sass', 'react', serve))
+gulp.task('default', gulp.series('copy-statics', 'copy-icons', 'sass', 'react', serve))
