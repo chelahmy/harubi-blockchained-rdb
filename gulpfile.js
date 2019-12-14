@@ -50,6 +50,7 @@ let react = () => {
 let copy_statics = () => {
 	return gulp.src([
 			'src/*.html',
+			'src/*.php',
 			'src/**/img/*.*'
 		])
 		.pipe(gulp.dest('./dist'))
