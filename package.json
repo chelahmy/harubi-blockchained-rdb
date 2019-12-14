@@ -1,7 +1,7 @@
 {
-  "name": "foundation-react-template",
+  "name": "harubi-front",
   "version": "1.0.0",
-  "description": "A fusion between Foundation and React for front-end development",
+  "description": "A front-end for harubi.",
   "main": "gulpfile.js",
   "scripts": {
     "start": "gulp",
