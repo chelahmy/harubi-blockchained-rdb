@@ -1,5 +1,5 @@
 const gulp          = require('gulp')
-const connect				= require('gulp-connect-php')
+const connect       = require('gulp-connect-php')
 const webpack       = require('webpack-stream')
 const browserSync   = require('browser-sync').create()
 const $             = require('gulp-load-plugins')()
