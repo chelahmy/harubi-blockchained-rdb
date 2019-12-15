@@ -75,7 +75,7 @@ let serve = () => {
 
 	gulp.watch('src/scss/*.scss', sass).on('change', browserSync.reload)
 	gulp.watch(['src/js/*.js', 'src/js/*.jsx'], react).on('change', browserSync.reload)
-	gulp.watch(['src/*.html', 'src/img/*.*'], copy_statics).on('change', browserSync.reload)
+	gulp.watch(['src/*.html', 'src/*.php', 'src/img/*.*'], copy_statics).on('change', browserSync.reload)
 }
 
 gulp.task('copy-statics', copy_statics)
