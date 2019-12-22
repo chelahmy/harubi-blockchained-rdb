@@ -5,7 +5,7 @@
   "main": "gulpfile.js",
   "scripts": {
     "start": "gulp",
-    "build": "gulp copy-statics copy-icons sass react",
+    "build": "gulp copy-backend copy-statics copy-icons sass react",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Abdullah Daud <chelahmy@gmail.com>",
