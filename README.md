@@ -22,6 +22,9 @@ and run the following command to download all dependencies including Foundation 
 $ npm i
 ```
 
+### Database setup
+Create a `harubi_front` database in MySQL, and create the `user` table using the `src/backend/user.install.sql` script. Please refer to [harubi](https://github.com/chelahmy/harubi) for more details.
+
 ## How-to
 Start the project.
 ```
@@ -29,7 +32,7 @@ $ npm start
 ```
 The tool-chain will build the project into the `dist` folder and run it in a browser. Any changes made in the `src` folder will trigger the tool-chain to rebuild the project and push the changes to the browser in real time. Remove the `dist` folder to rebuild the project.
 
-Begin with the `src/index.html`, `src/js/app.js` and `src/scss/app.scss` files. The resulting `dist` is standalone and can be deployed to a web server.
+Begin with the `src/index.html`, `src/js/app.js`, `src/scss/app.scss` and `src/backend/serve.php` files. The resulting `dist` is standalone and can be deployed to a PHP and MySQL web server.
 
 For building the project without watching the source files and triggering the browser
 ```
