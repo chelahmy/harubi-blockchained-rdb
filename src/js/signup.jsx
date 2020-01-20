@@ -6,15 +6,15 @@ export default class SignUp extends React.Component {
   constructor(props) {
     super(props)
 
-    this.handleFormLink = this.handleFormLink.bind(this)
-    this.handleOnSubmit = this.handleOnSubmit.bind(this)
+    this.handleOnFormMount = this.handleOnFormMount.bind(this)
+    this.handleOnFormSubmit = this.handleOnFormSubmit.bind(this)
   }
 
-  handleFormLink(link) {
-    this.form = link
+  handleOnFormMount(obj) {
+    this.form = obj
   }
 
-  handleOnSubmit(ev,frm) {
+  handleOnFormSubmit(ev,frm) {
     console.log("Form id "+frm.attr('id')+" is valid");
     // ajax post form
     let data = new FormData(ev.target)
@@ -36,9 +36,9 @@ export default class SignUp extends React.Component {
     return (
       <Form
         title={this.props.title}
-        onSubmit={this.handleOnSubmit}
+        onSubmit={this.handleOnFormSubmit}
         submitValue="Sign Up" wantReset
-        link={this.handleFormLink}>
+        onMount={this.handleOnFormMount}>
         <Input label="Name" name="name" type="text" placeholder="Your user name" pattern="alpha_numeric" required
           errorMessage="An alpha-numeric user name is required. Spaces and symbols are not allowed."/>
         <Input label="E-mail" name="email" type="text" placeholder="Your e-mail address" pattern="email" required

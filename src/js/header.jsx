@@ -45,7 +45,7 @@ export default class Header extends React.Component {
       back_button = (
         <a
           class="fi-arrow-left menu-item"
-          onClick={() => this.props.onMenuClick('back')}
+          onClick={() => this.props.onMenuClick('_back')}
         ></a>
       )
 

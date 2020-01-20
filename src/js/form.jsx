@@ -9,7 +9,7 @@ export default class Form extends React.Component {
   constructor(props) {
     super(props)
 
-    this.handleCalloutLink = this.handleCalloutLink.bind(this)
+    this.handleOnCalloutMount = this.handleOnCalloutMount.bind(this)
     this.handleOnReset = this.handleOnReset.bind(this)
 
     if (typeof window.page_form_id === 'undefined')
@@ -19,8 +19,8 @@ export default class Form extends React.Component {
     this.myRef = React.createRef()
   }
 
-  handleCalloutLink(link) {
-    this.callout = link
+  handleOnCalloutMount(obj) {
+    this.callout = obj
   }
 
   handleOnReset(e) {
@@ -38,8 +38,8 @@ export default class Form extends React.Component {
   }
 
   componentDidMount() {
-    if (typeof this.props.link !== 'undefined')
-      this.props.link(this)
+    if (typeof this.props.onMount !== 'undefined')
+      this.props.onMount(this)
 
     let ele = this.myRef.current
     // Re-initialize Foundation since React alters DOM
@@ -78,7 +78,7 @@ export default class Form extends React.Component {
       <div>
         <Title title={this.props.title}/>
         <NarrowColumn>
-          <Callout link={this.handleCalloutLink}/>
+          <Callout onMount={this.handleOnCalloutMount}/>
           <form data-abide noValidate
             ref={this.myRef}
             id={this.props.myid}

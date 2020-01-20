@@ -44,8 +44,8 @@ export default class Callout extends React.Component {
   }
 
   componentDidMount() {
-    if (typeof this.props.link !== 'undefined')
-      this.props.link(this)
+    if (typeof this.props.onMount !== 'undefined')
+      this.props.onMount(this)
   }
 
   render() {

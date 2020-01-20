@@ -7,20 +7,20 @@ import SignUp from './signup'
 export default class Page extends React.Component {
   constructor(props) {
     super(props)
-    this.handleMenuClick = this.handleMenuClick.bind(this)
+    this.handleOnNavigate = this.handleOnNavigate.bind(this)
     this.assignUserMenus = this.assignUserMenus.bind(this)
     this.state = {page_name: 'home'}
   }
 
-  handleMenuClick(item) {
-    console.log(item)
-    if (item == 'back') { // back button pressed
+  handleOnNavigate(page) {
+    console.log(page)
+    if (page == '_back') { // navigate to the previous page
       // TODO: Restore previous state
-      item = 'home' // default (and TODO: clear all preserved states)
-    } else { // menu pressed
+      page = 'home' // default (and TODO: clear page states)
+    } else {
       // TODO: Preserve current state
     }
-    this.setState({page_name: item})
+    this.setState({page_name: page})
   }
 
   // Default user menus are signup, signin and signout.
@@ -77,7 +77,7 @@ export default class Page extends React.Component {
               menu={menu}
               want_back_button={want_back_button}
               button_menu={button_menu}
-              onMenuClick={this.handleMenuClick}/>
+              onMenuClick={this.handleOnNavigate}/>
           </div>
           <div class="cell">
             {body}
