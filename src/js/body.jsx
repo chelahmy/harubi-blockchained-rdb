@@ -10,7 +10,7 @@ export default class Body extends React.Component {
     if (typeof window.page_body_id === 'undefined')
       window.page_body_id = 0;
 
-    props.myid = 'page_body_' + ++(window.page_body_id); // support multiple bodies
+    props.myid = 'page_body_' + ++(window.page_body_id); // support multiple bodies on a page
     this.myRef = React.createRef();
   }
 

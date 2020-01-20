@@ -15,7 +15,7 @@ export default class Form extends React.Component {
     if (typeof window.page_form_id === 'undefined')
       window.page_form_id = 0
 
-    props.myid = 'page_form_' + ++(window.page_form_id) // support multiple bodies
+    props.myid = 'page_form_' + ++(window.page_form_id) // support multiple forms on a page
     this.myRef = React.createRef()
   }
 
