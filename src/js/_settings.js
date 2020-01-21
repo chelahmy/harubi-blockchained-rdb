@@ -12,9 +12,9 @@ const Settings = {
       title: 'Home',
       menu: ['about'],
       body: {
+        component: 'body',
         content: 'home.html',
-        column: 'wide', // narrow, medium, wide or full
-        component: 'body'
+        column: 'wide' // narrow, medium, wide or full
       }
     },
     signin: {
@@ -26,6 +26,15 @@ const Settings = {
       menu: ['home'],
       body: {
         component: 'signup'
+      }
+    },
+    signedup: {
+      title: 'Signed Up',
+      menu: ['home'],
+      body: {
+        component: 'body',
+        content: 'signedup.html',
+        column: 'wide' // narrow, medium, wide or full
       }
     }
   }

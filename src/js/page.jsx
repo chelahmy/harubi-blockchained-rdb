@@ -7,12 +7,12 @@ import SignUp from './signup'
 export default class Page extends React.Component {
   constructor(props) {
     super(props)
-    this.handleOnNavigate = this.handleOnNavigate.bind(this)
+    this.navigate = this.navigate.bind(this)
     this.assignUserMenus = this.assignUserMenus.bind(this)
     this.state = {page_name: 'home'}
   }
 
-  handleOnNavigate(page) {
+  navigate(page) {
     console.log(page)
     if (page == '_back') { // navigate to the previous page
       // TODO: Restore previous state
@@ -60,9 +60,9 @@ export default class Page extends React.Component {
       let comp = page_settings.body.component
       if (comp == 'body')
         body = (<Body title={title} src={page_settings.body.content}
-          column={page_settings.body.column}/>)
+          column={page_settings.body.column} page={this}/>)
       else if (comp == 'signup')
-        body = (<SignUp title={title}/>)
+        body = (<SignUp title={title} page={this} onSuccessPage="signedup"/>)
     }
 
     if (page == 'home')
@@ -77,7 +77,7 @@ export default class Page extends React.Component {
               menu={menu}
               want_back_button={want_back_button}
               button_menu={button_menu}
-              onMenuClick={this.handleOnNavigate}/>
+              onMenuClick={this.navigate}/>
           </div>
           <div class="cell">
             {body}
