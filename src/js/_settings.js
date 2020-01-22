@@ -17,6 +17,15 @@ const Settings = {
         column: 'wide' // narrow, medium, wide or full
       }
     },
+    about: {
+      title: 'About',
+      menu: ['home'],
+      body: {
+        component: 'body',
+        content: 'about.html',
+        column: 'wide' // narrow, medium, wide or full
+      }
+    },
     signin: {
       title: 'Sign In',
       menu: ['home'],
