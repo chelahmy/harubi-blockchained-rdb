@@ -5,18 +5,21 @@ import WideColumn from './wide_column'
 
 export default class Body extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     if (typeof window.page_body_id === 'undefined')
-      window.page_body_id = 0;
+      window.page_body_id = 0
 
-    props.myid = 'page_body_' + ++(window.page_body_id); // support multiple bodies on a page
-    this.myRef = React.createRef();
+    this.myid = 'page_body_' + ++(window.page_body_id) // support multiple bodies on a page
   }
 
   componentDidMount() {
-    const node = this.myRef.current;
-    $('#' + node.id).load(this.props.src)
+    $('#' + this.myid).load(this.props.src)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.src != this.props.src)
+      $('#' + this.myid).load(this.props.src)
   }
 
   render() {
@@ -24,22 +27,22 @@ export default class Body extends React.Component {
       if (this.props.column == 'narrow')
         return (
           <NarrowColumn>
-            <div ref={this.myRef} id={this.props.myid} />
+            <div id={this.myid} />
           </NarrowColumn>
         )
       if (this.props.column == 'medium')
         return (
           <MediumColumn>
-            <div ref={this.myRef} id={this.props.myid} />
+            <div id={this.myid} />
           </MediumColumn>
         )
       if (this.props.column == 'wide')
         return (
           <WideColumn>
-            <div ref={this.myRef} id={this.props.myid} />
+            <div id={this.myid} />
           </WideColumn>
         )
     }
-    return (<div ref={this.myRef} id={this.props.myid} />)
+    return (<div id={this.myid} />)
   }
 }
