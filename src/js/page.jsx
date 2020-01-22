@@ -3,6 +3,7 @@ import {GetMenuLabel, GetPageSettings} from './_settings'
 import Header from './header'
 import Body from './body'
 import SignUp from './signup'
+import SignIn, {SignOut} from './signin'
 
 export default class Page extends React.Component {
   constructor(props) {
@@ -13,8 +14,12 @@ export default class Page extends React.Component {
   }
 
   navigate(page) {
-    console.log(page)
-    if (page == '_back') { // navigate to the previous page
+    console.log('navigate: ' + page)
+    if (page == 'signout') {
+      SignOut()
+      page = 'signedout'
+    }
+    else if (page == '_back') { // navigate to the previous page
       // TODO: Restore previous state
       page = 'home' // default (and TODO: clear page states)
     } else {
@@ -29,12 +34,17 @@ export default class Page extends React.Component {
     if (page != 'signup' && page != 'signin' && page != 'signout') {
       if (typeof menu === 'undefined')
         menu = []
-      // If user has not signed in
-      if (typeof button_menu === 'object') {
-        menu.push(button_menu)
+      if (typeof window.user === 'undefined') {
+        // If user has not signed in
+        if (typeof button_menu === 'object') {
+          menu.push(button_menu) // downgrade button_menu
+        }
+        menu.push({name: 'signin', label: GetMenuLabel('signin')})
+        button_menu = {name: 'signup', label: GetMenuLabel('signup')}
       }
-      menu.push({name: 'signin', label: GetMenuLabel('signin')})
-      button_menu = {name: 'signup', label: GetMenuLabel('signup')}
+      else {
+        menu.push({name: 'signout', label: GetMenuLabel('signout')})
+      }
     }
     return {menu: menu, button_menu: button_menu}
   }
@@ -63,6 +73,8 @@ export default class Page extends React.Component {
           column={page_settings.body.column} page={this}/>)
       else if (comp == 'signup')
         body = (<SignUp title={title} page={this} onSuccessPage="signedup"/>)
+      else if (comp == 'signin')
+        body = (<SignIn title={title} page={this} onSuccessPage="home"/>)
     }
 
     if (page == 'home')
