@@ -74,10 +74,10 @@ export default class Page extends React.Component {
       else if (comp == 'signup')
         body = (<SignUp title={title} page={this} onSuccessPage="signedup"/>)
       else if (comp == 'signin')
-        body = (<SignIn title={title} page={this} onSuccessPage="home"/>)
+        body = (<SignIn title={title} page={this} onSuccessPage="signedin"/>)
     }
 
-    if (page == 'home')
+    if (['home', 'signedin', 'signedout', 'signedup'].includes(page))
       want_back_button = false
 
     return (

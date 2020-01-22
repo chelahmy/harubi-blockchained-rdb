@@ -40,6 +40,15 @@ const Settings = {
         column: 'wide' // narrow, medium, wide or full
       }
     },
+    signedin: {
+      title: 'Signed In',
+      menu: ['home'],
+      body: {
+        component: 'body',
+        content: 'signedin.html',
+        column: 'wide' // narrow, medium, wide or full
+      }
+    },
     signedout: {
       title: 'Signed Out',
       menu: ['home'],

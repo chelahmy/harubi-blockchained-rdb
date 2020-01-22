@@ -51,17 +51,12 @@ export default class SignIn extends React.Component {
     // On server respond.ok (see above)
     .then((resp_json) => {
       // Application implemented response
-      if (resp_json.status != 0)
-        //window.user = {name: name}
-        //this.props.page.navigate(this.props.onSuccessPage)
-        return resp_json
+      if (resp_json.status != 0) {
+        window.user = {name: name}
+        this.props.page.navigate(this.props.onSuccessPage)
+      }
       else
         this.form.callOut('Server Response', resp_json.error_message, 'alert')
-    })
-    // On status != 0 (success)
-    .then((resp_json) => {
-      window.user = {name: name}
-      this.props.page.navigate(this.props.onSuccessPage)
     })
     // On client or network error
     .catch((error) => {
