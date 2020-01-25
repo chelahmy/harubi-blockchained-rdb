@@ -13,7 +13,7 @@ export default class Page extends React.Component {
     this.state = {page_name: 'home'}
   }
 
-  navigate(page) {
+  navigate(page, param) {
     console.log('navigate: ' + page)
     if (page == 'signout') {
       SignOut()
@@ -25,7 +25,7 @@ export default class Page extends React.Component {
     } else {
       // TODO: Preserve current state
     }
-    this.setState({page_name: page})
+    this.setState({page_name: page, page_param: param})
   }
 
   // Default user menus are signup, signin and signout.
@@ -51,8 +51,15 @@ export default class Page extends React.Component {
     return {menu: menu, button_menu: button_menu}
   }
 
+  componentDidMount() {
+    window.pageNavigate = (page, param) => {
+      this.navigate(page, param)
+    }
+  }
+
   render() {
     const page = this.state.page_name
+    const param = this.state.page_param
     let menu, button_menu, body
     let want_back_button = true
     let page_settings = GetPageSettings(page)
@@ -72,11 +79,11 @@ export default class Page extends React.Component {
       let comp = page_settings.body.component
       if (comp == 'body')
         body = (<Body title={title} src={page_settings.body.content}
-          column={page_settings.body.column} page={this}/>)
+          column={page_settings.body.column} page={this} pageParam={param}/>)
       else if (comp == 'signup')
-        body = (<SignUp title={title} page={this} onSuccessPage="signedup"/>)
+        body = (<SignUp title={title} page={this} pageParam={param} onSuccessPage="signedup"/>)
       else if (comp == 'signin')
-        body = (<SignIn title={title} page={this} onSuccessPage="signedin"/>)
+        body = (<SignIn title={title} page={this} pageParam={param} onSuccessPage="signedin"/>)
     }
 
     if (['home', 'signedin', 'signedout', 'signedup'].includes(page))
