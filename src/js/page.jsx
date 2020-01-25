@@ -43,6 +43,8 @@ export default class Page extends React.Component {
         button_menu = {name: 'signup', label: GetMenuLabel('signup')}
       }
       else {
+        if (page != 'profile')
+          menu.push({name: 'profile', label: GetMenuLabel('profile')})
         menu.push({name: 'signout', label: GetMenuLabel('signout')})
       }
     }

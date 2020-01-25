@@ -5,7 +5,8 @@ const Settings = {
     about: 'About',
     signup: 'Sign Up',
     signin: 'Sign In',
-    signout: 'Sign Out'
+    signout: 'Sign Out',
+    profile: 'Profile'
   },
   pages: {
     home: {
@@ -28,21 +29,21 @@ const Settings = {
     },
     signin: {
       title: 'Sign In',
-      menu: ['home'],
+      menu: ['home', 'about'],
       body: {
         component: 'signin'
       }
     },
     signup: {
       title: 'Sign Up',
-      menu: ['home'],
+      menu: ['home', 'about'],
       body: {
         component: 'signup'
       }
     },
     signedup: {
       title: 'Signed Up',
-      menu: ['home'],
+      menu: ['home', 'about'],
       body: {
         component: 'body',
         content: 'signedup.html',
@@ -51,7 +52,7 @@ const Settings = {
     },
     signedin: {
       title: 'Signed In',
-      menu: ['home'],
+      menu: ['home', 'about'],
       body: {
         component: 'body',
         content: 'signedin.html',
@@ -60,7 +61,7 @@ const Settings = {
     },
     signedout: {
       title: 'Signed Out',
-      menu: ['home'],
+      menu: ['home', 'about'],
       body: {
         component: 'body',
         content: 'signedout.html',
