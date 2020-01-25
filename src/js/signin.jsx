@@ -52,7 +52,10 @@ export default class SignIn extends React.Component {
     .then((resp_json) => {
       // Application implemented response
       if (resp_json.status != 0) {
-        window.user = {name: name}
+        if (typeof resp_json.results !== 'undefined')
+          window.user = resp_json.results
+        else
+          window.user = {admin: 0, name: name}
         this.props.page.navigate(this.props.onSuccessPage)
       }
       else
