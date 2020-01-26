@@ -15,6 +15,8 @@ export default class Page extends React.Component {
 
   navigate(page, param) {
     console.log('navigate: ' + page)
+    if (page == 'signedin')
+      console.log(window.user);
     if (page == 'signout') {
       SignOut()
       page = 'signedout'
@@ -28,14 +30,17 @@ export default class Page extends React.Component {
     this.setState({page_name: page, page_param: param})
   }
 
-  // Default user menus are signup, signin and signout.
-  // All disallowed menus will be removed.
+  // Default user menus are signup, signin, signout and profile.
+  // The administrator user has admin menu.
   assignUserMenus(page, menu, button_menu) {
-    if (page != 'signup' && page != 'signin' && page != 'signout') {
+    if (!['signup', 'signin', 'signout'].includes(page)) {
+      // If page is not signup, signin or signout then
+      // add default user menus
       if (typeof menu === 'undefined')
         menu = []
       if (typeof window.user === 'undefined') {
-        // If user has not signed in
+        // If user has not signed in then
+        // add signup and signin menus
         if (typeof button_menu === 'object') {
           menu.push(button_menu) // downgrade button_menu
         }
@@ -43,8 +48,13 @@ export default class Page extends React.Component {
         button_menu = {name: 'signup', label: GetMenuLabel('signup')}
       }
       else {
+        // If user has signed in then
+        // add profile and signout menus
+        // and admin menu is the user is the administrator
         if (page != 'profile')
           menu.push({name: 'profile', label: GetMenuLabel('profile')})
+        if (window.user.admin == 1 && page != 'admin')
+          menu.push({name: 'admin', label: GetMenuLabel('admin')})
         menu.push({name: 'signout', label: GetMenuLabel('signout')})
       }
     }
@@ -52,6 +62,7 @@ export default class Page extends React.Component {
   }
 
   componentDidMount() {
+    // Declare global function pageNavigate()
     window.pageNavigate = (page, param) => {
       this.navigate(page, param)
     }

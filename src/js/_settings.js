@@ -6,7 +6,8 @@ const Settings = {
     signup: 'Sign Up',
     signin: 'Sign In',
     signout: 'Sign Out',
-    profile: 'Profile'
+    profile: 'Profile',
+    admin: 'Admin'
   },
   pages: {
     home: {
@@ -70,6 +71,15 @@ const Settings = {
       body: {
         component: 'body',
         content: 'profile.html',
+        column: 'narrow' // wide, medium, wide or full
+      }
+    },
+    admin: {
+      title: 'Administration',
+      menu: ['home', 'about'],
+      body: {
+        component: 'body',
+        content: 'admin.html',
         column: 'narrow' // wide, medium, wide or full
       }
     }
