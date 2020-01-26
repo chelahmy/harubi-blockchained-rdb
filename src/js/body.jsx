@@ -23,7 +23,10 @@ export default class Body extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.src != this.props.src)
-      $('#' + this.myid).load(this.props.src)
+      $('#' + this.myid).load(this.props.src, () => {
+        if (typeof window.bodyDidLoad === 'function')
+          window.bodyDidLoad(this.myid)
+      })
   }
 
   render() {
