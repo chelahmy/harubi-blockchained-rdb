@@ -18,14 +18,17 @@ export default class Body extends React.Component {
     $('#' + this.myid).load(this.props.src, () => {
       if (typeof window.bodyDidLoad === 'function')
         window.bodyDidLoad(this.myid)
+        window.bodyDidLoad = undefined
     })
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.src != this.props.src)
       $('#' + this.myid).load(this.props.src, () => {
-        if (typeof window.bodyDidLoad === 'function')
+        if (typeof window.bodyDidLoad === 'function') {
           window.bodyDidLoad(this.myid)
+          window.bodyDidLoad = undefined
+        }
       })
   }
 
