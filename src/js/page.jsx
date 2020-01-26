@@ -11,6 +11,7 @@ export default class Page extends React.Component {
     this.navigate = this.navigate.bind(this)
     this.assignUserMenus = this.assignUserMenus.bind(this)
     this.state = {page_name: 'home'}
+    window.pageStack = []
   }
 
   navigate(page, param) {
@@ -22,10 +23,23 @@ export default class Page extends React.Component {
       page = 'signedout'
     }
     else if (page == '_back') { // navigate to the previous page
-      // TODO: Restore previous state
-      page = 'home' // default (and TODO: clear page states)
-    } else {
-      // TODO: Preserve current state
+      if (typeof window.pageStack !== 'undefined' &&
+        window.pageStack.length > 0) {
+        let item = window.pageStack.pop()
+        page = item.page
+        param = item.param
+      }
+      else {
+        page = 'home'
+        param = undefined
+      }
+    }
+    else if (['home', 'signedin', 'signedout', 'signedup'].includes(page))
+      window.pageStack = []
+    else {
+      if (typeof window.pageStack === 'undefined')
+        window.pageStack = []
+      window.pageStack.push({page: this.state.page_name, param: this.state.page_param})
     }
     this.setState({page_name: page, page_param: param})
   }
@@ -50,7 +64,7 @@ export default class Page extends React.Component {
       else {
         // If user has signed in then
         // add profile and signout menus
-        // and admin menu is the user is the administrator
+        // and admin menu if the user is the administrator
         if (page != 'profile')
           menu.push({name: 'profile', label: GetMenuLabel('profile')})
         if (window.user.admin == 1 && page != 'admin')
@@ -97,7 +111,7 @@ export default class Page extends React.Component {
         body = (<SignIn title={title} page={this} pageParam={param} onSuccessPage="signedin"/>)
     }
 
-    if (['home', 'signedin', 'signedout', 'signedup'].includes(page))
+    if (typeof window.pageStack === 'undefined' || window.pageStack.length <= 0)
       want_back_button = false
 
     return (
