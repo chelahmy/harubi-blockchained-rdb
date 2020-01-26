@@ -63,6 +63,15 @@ const Settings = {
         content: 'signedout.html',
         column: 'wide' // narrow, medium, wide or full
       }
+    },
+    profile: {
+      title: 'Profile',
+      menu: ['home', 'about'],
+      body: {
+        component: 'body',
+        content: 'profile.html',
+        column: 'narrow' // wide, medium, wide or full
+      }
     }
   }
 }

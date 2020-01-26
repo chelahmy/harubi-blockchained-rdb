@@ -1,0 +1,36 @@
+<h5>Name</h5>
+<div id='user_name'></div>
+<br/>
+<h5>E-mail</h5>
+<div id='user_email'></div>
+<br/>
+<h5>Member since</h5>
+<div id='user_since'></div>
+
+<script type="text/javascript">
+const intervals = [
+  { label: 'year', seconds: 31536000 },
+  { label: 'month', seconds: 2592000 },
+  { label: 'day', seconds: 86400 },
+  { label: 'hour', seconds: 3600 },
+  { label: 'minute', seconds: 60 },
+  { label: 'second', seconds: 0 }
+]
+
+function timeSince(ts) {
+  let date = new Date(ts * 1000)
+  let seconds = Math.floor((Date.now() - date.getTime()) / 1000)
+  let interval = intervals.find(i => i.seconds < seconds)
+  let count = seconds
+  if (interval.seconds > 0)
+    count = Math.floor(seconds / interval.seconds)
+  return `${count} ${interval.label}${count !== 1 ? 's' : ''} ago`
+}
+
+function bodyDidLoad(id) {
+  console.log(id);
+  $('#user_name').text(window.user.name)
+  $('#user_email').text(window.user.email)
+  $('#user_since').text(timeSince(window.user.created_utc))
+}
+</script>
