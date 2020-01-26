@@ -10,7 +10,6 @@ const Settings = {
   },
   pages: {
     home: {
-      title: 'Home',
       menu: ['about'],
       body: {
         component: 'body',
@@ -42,7 +41,6 @@ const Settings = {
       }
     },
     signedup: {
-      title: 'Signed Up',
       menu: ['home', 'about'],
       body: {
         component: 'body',
@@ -51,7 +49,6 @@ const Settings = {
       }
     },
     signedin: {
-      title: 'Signed In',
       menu: ['home', 'about'],
       body: {
         component: 'body',
@@ -60,7 +57,6 @@ const Settings = {
       }
     },
     signedout: {
-      title: 'Signed Out',
       menu: ['home', 'about'],
       body: {
         component: 'body',

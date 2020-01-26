@@ -1,4 +1,5 @@
 import React from 'react'
+import Title from './title'
 import NarrowColumn from './narrow_column'
 import MediumColumn from './medium_column'
 import WideColumn from './wide_column'
@@ -26,26 +27,43 @@ export default class Body extends React.Component {
   }
 
   render() {
+    let title
+    if (typeof this.props.title !== 'undefined')
+      title = (<Title title={this.props.title}/>)
     if (typeof this.props.column !== 'undefined') {
       if (this.props.column == 'narrow')
         return (
-          <NarrowColumn>
-            <div id={this.myid} />
-          </NarrowColumn>
+          <div>
+            {title}
+            <NarrowColumn>
+              <div id={this.myid} />
+            </NarrowColumn>
+          </div>
         )
       if (this.props.column == 'medium')
         return (
-          <MediumColumn>
-            <div id={this.myid} />
-          </MediumColumn>
+          <div>
+            {title}
+            <MediumColumn>
+              <div id={this.myid} />
+            </MediumColumn>
+          </div>
         )
       if (this.props.column == 'wide')
         return (
-          <WideColumn>
-            <div id={this.myid} />
-          </WideColumn>
+          <div>
+            {title}
+            <WideColumn>
+              <div id={this.myid} />
+            </WideColumn>
+          </div>
         )
     }
-    return (<div id={this.myid} />)
+    return (
+      <div>
+        {title}
+        <div id={this.myid} />
+      </div>
+    )
   }
 }
