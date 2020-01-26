@@ -1,7 +1,9 @@
 <h1>Welcome, <em><span id='user_name'></span></em>!</h1>
-<p>Harubi Front is ready for you. You may update your <a onclick="pageNavigate('profile')">profile</a>.</p>
+<p>Harubi Front is ready for you. You may view your <a onclick="pageNavigate('profile')">profile</a>.</p>
+
 <script type="text/javascript">
 function bodyDidLoad(id) {
-  $('#user_name').text(window.user.name)
+  if (typeof window.user !== 'undefined')
+    $('#user_name').text(window.user.name)
 }
 </script>
