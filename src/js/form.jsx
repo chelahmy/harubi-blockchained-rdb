@@ -14,8 +14,7 @@ export default class Form extends React.Component {
     if (typeof window.page_form_id === 'undefined')
       window.page_form_id = 0
 
-    props.myid = 'page_form_' + ++(window.page_form_id) // support multiple forms on a page
-    this.myRef = React.createRef()
+    this.myid = 'page_form_' + ++(window.page_form_id) // support multiple forms on a page
   }
 
   handleOnCalloutMount(obj) {
@@ -40,7 +39,7 @@ export default class Form extends React.Component {
     if (typeof this.props.onMount !== 'undefined')
       this.props.onMount(this)
 
-    let ele = this.myRef.current
+    let ele = $('#' + this.myid)
     // Re-initialize Foundation since React alters DOM
     if (!$(ele).data('zfPlugin')) {
         $(ele).foundation()
@@ -77,8 +76,7 @@ export default class Form extends React.Component {
       <NarrowColumn>
         <Callout onMount={this.handleOnCalloutMount}/>
         <form data-abide noValidate
-          ref={this.myRef}
-          id={this.props.myid}
+          id={this.myid}
           onReset={this.handleOnReset}>
           {this.props.children}
           <div class="vertical-space-separator"/>

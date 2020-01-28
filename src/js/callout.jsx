@@ -7,12 +7,11 @@ export default class Callout extends React.Component {
     if (typeof window.page_callout_id === 'undefined')
       window.page_callout_id = 0;
 
-    props.myid = 'page_callout_' + ++(window.page_callout_id); // support multiple bodies
-    this.myRef = React.createRef();
+    this.myid = 'page_callout_' + ++(window.page_callout_id); // support multiple callouts
   }
 
   show(title, message, type = '') {
-    const ele = this.myRef.current
+    const ele = $('#' + this.myid)
     if (typeof ele !== 'undefined') {
       let title_ele = $(ele).find('#callout_title')
       if (title_ele.length > 0)
@@ -25,11 +24,10 @@ export default class Callout extends React.Component {
         $(ele).addClass(type)
       $(ele).show()
     }
-
   }
 
   hide() {
-    const ele = this.myRef.current
+    const ele = $('#' + this.myid)
     if (typeof ele !== 'undefined') {
       let title_ele = $(ele).find('#callout_title')
       if (title_ele.length > 0)
@@ -50,7 +48,7 @@ export default class Callout extends React.Component {
 
   render() {
     return (
-      <div class="callout hide" ref={this.myRef} id={this.props.myid}>
+      <div class="callout hide" id={this.myid}>
         <h5 id="callout_title">{this.props.title}</h5>
         <p id="callout_message">{this.props.message}</p>
       </div>
