@@ -66,12 +66,19 @@ const Settings = {
       }
     },
     profile: {
-      title: 'Profile',
+      title: 'My Profile',
       menu: ['home', 'about'],
       body: {
         component: 'body',
         content: 'profile.html',
         column: 'narrow' // wide, medium, wide or full
+      }
+    },
+    change_email: {
+      title: 'Change My Email Address',
+      menu: ['home', 'about'],
+      body: {
+        component: 'change_email'
       }
     },
     admin: {
