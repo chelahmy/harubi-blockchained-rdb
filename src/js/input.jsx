@@ -19,6 +19,9 @@ export default class Input extends React.Component {
     if (typeof this.props.placeholder !== 'undefined')
       inprops.placeholder = this.props.placeholder
 
+    if (typeof this.props.defaultValue !== 'undefined')
+      inprops.defaultValue = this.props.defaultValue
+
     if (typeof this.props.pattern !== 'undefined')
       inprops.pattern = this.props.pattern
 
