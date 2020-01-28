@@ -4,7 +4,7 @@ require('what-input')
 window.$ = $
 
 import Settings from './_settings'
-const app_title = Settings.title
+const app_title = Settings.application_title
 document.title = app_title
 
 $(document).ready(() => {

@@ -1,5 +1,5 @@
 const Settings = {
-  title: "Harubi Front",
+  application_title: "Harubi Front",
   menu: {
     home: 'Home',
     about: 'About',
