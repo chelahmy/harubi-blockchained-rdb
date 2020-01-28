@@ -1,6 +1,7 @@
 import React from 'react'
 import {GetMenuLabel, GetPageSettings} from './_settings'
 import Header from './header'
+import Title from './title'
 import Body from './body'
 import SignUp from './signup'
 import SignIn, {SignOut} from './signin'
@@ -86,7 +87,7 @@ export default class Page extends React.Component {
   render() {
     const page = this.state.page_name
     const param = this.state.page_param
-    let menu, button_menu, body
+    let menu, button_menu, title_bar, body
     let want_back_button = true
     let page_settings = GetPageSettings(page)
     let title = page_settings.title
@@ -101,17 +102,21 @@ export default class Page extends React.Component {
     menu = signing.menu
     button_menu = signing.button_menu
 
+    if (page_settings.want_title_bar) {
+      title_bar = (<Title title={title}/>)
+    }
+
     if (typeof page_settings.body !== 'undefined') {
       let comp = page_settings.body.component
       if (comp == 'body')
-        body = (<Body title={title} src={page_settings.body.content}
-          column={page_settings.body.column} page={this} pageParam={param}/>)
+        body = (<Body src={page_settings.body.content} column={page_settings.body.column}
+          page={this} pageParam={param}/>)
       else if (comp == 'signup')
-        body = (<SignUp title={title} page={this} pageParam={param} onSuccessPage="signedup"/>)
+        body = (<SignUp page={this} pageParam={param} onSuccessPage="signedup"/>)
       else if (comp == 'signin')
-        body = (<SignIn title={title} page={this} pageParam={param} onSuccessPage="signedin"/>)
+        body = (<SignIn page={this} pageParam={param} onSuccessPage="signedin"/>)
       else if (comp == 'change_email')
-        body = (<ChangeEmail title={title} page={this} pageParam={param} onSuccessPage="_back"/>)
+        body = (<ChangeEmail page={this} pageParam={param} onSuccessPage="_back"/>)
     }
 
     if (typeof window.pageStack === 'undefined' || window.pageStack.length <= 0)
@@ -129,6 +134,7 @@ export default class Page extends React.Component {
               onMenuClick={this.navigate}/>
           </div>
           <div class="cell">
+            {title_bar}
             {body}
           </div>
         </div>

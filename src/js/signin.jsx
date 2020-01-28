@@ -70,7 +70,6 @@ export default class SignIn extends React.Component {
   render() {
     return (
       <Form
-        title={this.props.title}
         onSubmit={this.handleOnFormSubmit}
         submitValue="Sign In"
         onMount={this.handleOnFormMount}>

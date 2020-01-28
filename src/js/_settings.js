@@ -11,6 +11,7 @@ const Settings = {
   },
   pages: {
     home: {
+      title: 'Home',
       menu: ['about'],
       body: {
         component: 'body',
@@ -29,6 +30,7 @@ const Settings = {
     },
     signin: {
       title: 'Sign In',
+      want_title_bar: true,
       menu: ['home', 'about'],
       body: {
         component: 'signin'
@@ -36,12 +38,14 @@ const Settings = {
     },
     signup: {
       title: 'Sign Up',
+      want_title_bar: true,
       menu: ['home', 'about'],
       body: {
         component: 'signup'
       }
     },
     signedup: {
+      title: 'Signed Up',
       menu: ['home', 'about'],
       body: {
         component: 'body',
@@ -50,6 +54,7 @@ const Settings = {
       }
     },
     signedin: {
+      title: 'Signed In',
       menu: ['home', 'about'],
       body: {
         component: 'body',
@@ -58,6 +63,7 @@ const Settings = {
       }
     },
     signedout: {
+      title: 'Signed Out',
       menu: ['home', 'about'],
       body: {
         component: 'body',
@@ -67,6 +73,7 @@ const Settings = {
     },
     profile: {
       title: 'My Profile',
+      want_title_bar: true,
       menu: ['home', 'about'],
       body: {
         component: 'body',
@@ -76,6 +83,7 @@ const Settings = {
     },
     change_email: {
       title: 'Change My Email Address',
+      want_title_bar: true,
       menu: ['home', 'about'],
       body: {
         component: 'change_email'
@@ -83,6 +91,7 @@ const Settings = {
     },
     admin: {
       title: 'Administration',
+      want_title_bar: true,
       menu: ['home', 'about'],
       body: {
         component: 'body',
@@ -103,6 +112,8 @@ function GetPageSettings(page) {
     let page_item = Settings.pages[page]
     if (typeof page_item.title !== 'undefined')
       settings.title = page_item.title
+    if (typeof page_item.want_title_bar !== 'undefined')
+      settings.want_title_bar = page_item.want_title_bar
     if (typeof page_item.menu !== 'undefined')
       settings.menu = page_item.menu.map((menu_item) => ({
         name: menu_item,

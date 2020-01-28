@@ -58,7 +58,6 @@ export default class ChangeEmail extends React.Component {
   render() {
     return (
       <Form
-        title={this.props.title}
         onSubmit={this.handleOnFormSubmit}
         submitValue="Update"
         onMount={this.handleOnFormMount}>

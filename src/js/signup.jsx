@@ -58,7 +58,6 @@ export default class SignUp extends React.Component {
   render() {
     return (
       <Form
-        title={this.props.title}
         onSubmit={this.handleOnFormSubmit}
         submitValue="Sign Up" wantReset
         onMount={this.handleOnFormMount}>
