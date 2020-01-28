@@ -67,7 +67,7 @@ export default class Header extends React.Component {
                   <ul class="menu">
                     <li class="menu-text">
                       <img class="top-bar-logo" src="img/logo_small.png"/>
-                      <span>{this.props.title}</span>
+                      <span>{this.props.applicationTitle}</span>
                     </li>
                   </ul>
                 </div>

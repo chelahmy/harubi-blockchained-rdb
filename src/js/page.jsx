@@ -122,7 +122,7 @@ export default class Page extends React.Component {
         <div class="grid-x grid-margin-x">
           <div class="cell">
             <Header
-              title={this.props.title}
+              applicationTitle={this.props.applicationTitle}
               menu={menu}
               want_back_button={want_back_button}
               button_menu={button_menu}

@@ -21,6 +21,6 @@ import ReactDOM from 'react-dom'
 import Page from './page'
 
 ReactDOM.render(
-  <Page title={app_title}/>,
+  <Page applicationTitle={app_title}/>,
   document.getElementById('page')
 )
