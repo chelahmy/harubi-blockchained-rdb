@@ -41,9 +41,13 @@ export default class ChangeEmail extends React.Component {
     .then((resp_json) => {
       // Application implemented response
       if (resp_json.status != 0) {
-        console.log(this.new_email);
         if (typeof window.user !== 'undefined')
             window.user.email = this.new_email
+        window.callOut = {
+          title: 'Success',
+          message: 'Your email has been successfully updated.',
+          type: 'success'
+        }
         this.props.page.navigate(this.props.onSuccessPage)
       }
       else

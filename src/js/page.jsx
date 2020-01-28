@@ -29,7 +29,7 @@ export default class Page extends React.Component {
         window.pageStack.length > 0) {
         let item = window.pageStack.pop()
         page = item.page
-        param = item.param
+        param = {...item.param, ...param} // merge _back param with the target
       }
       else {
         page = 'home'

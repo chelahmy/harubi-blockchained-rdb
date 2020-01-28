@@ -56,6 +56,22 @@ export default class Form extends React.Component {
       .on("submit", function(ev) {
         ev.preventDefault();
       })
+
+    if (typeof window.callOut !== 'undefined') {
+      let co = window.callOut
+      this.callout.show(co.title, co.message, co.type)
+      window.callOut = undefined
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (typeof window.callOut !== 'undefined') {
+      let co = window.callOut
+      this.callout.show(co.title, co.message, co.type)
+      window.callOut = undefined
+    }
+    else
+      this.callout.hide()
   }
 
   render() {
