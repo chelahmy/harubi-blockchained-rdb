@@ -33,15 +33,15 @@ export default class Header extends React.Component {
         )
     }
 
-    if (this.props.button_menu)
+    if (this.props.buttonMenu)
       button = (
         <ButtonMenu
-          label={this.props.button_menu.label}
-          onClick={() => this.props.onMenuClick(this.props.button_menu.name)}
+          label={this.props.buttonMenu.label}
+          onClick={() => this.props.onMenuClick(this.props.buttonMenu.name)}
         />
       )
 
-    if (this.props.want_back_button)
+    if (this.props.wantBackButton)
       back_button = (
         <a
           class="fi-arrow-left menu-item"
