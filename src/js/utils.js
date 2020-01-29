@@ -66,6 +66,29 @@ function UnrefSignedInUser() {
     window.user = undefined
 }
 
+function PushPage(page, param) {
+  if (typeof window.pageStack === 'undefined')
+    window.pageStack = []
+  window.pageStack.push({page: page, param: param})
+}
+
+function PopPage() {
+  if (typeof window.pageStack !== 'undefined' &&
+    window.pageStack.length > 0) {
+    return window.pageStack.pop()
+  }
+}
+
+function PageStackLength() {
+  if (typeof window.pageStack === 'undefined')
+    return 0
+  return window.pageStack.length
+}
+
+function ClearPageStack() {
+  window.pageStack = []
+}
+
 export {
   Settings as default,
   GetMenuLabel,
@@ -75,5 +98,9 @@ export {
   GetSignedInUser,
   IsUserSignedIn,
   IsSignedInUserAdmin,
-  UnrefSignedInUser
+  UnrefSignedInUser,
+  PushPage,
+  PopPage,
+  PageStackLength,
+  ClearPageStack
 }

@@ -4,7 +4,11 @@ import {
   GetPageSettings,
   GetSignedInUser,
   IsUserSignedIn,
-  IsSignedInUserAdmin
+  IsSignedInUserAdmin,
+  PushPage,
+  PopPage,
+  PageStackLength,
+  ClearPageStack
 } from './utils'
 import Header from './header'
 import Title from './title'
@@ -19,7 +23,7 @@ export default class Page extends React.Component {
     this.navigate = this.navigate.bind(this)
     this.assignUserMenus = this.assignUserMenus.bind(this)
     this.state = {page_name: 'home'}
-    window.pageStack = []
+    ClearPageStack()
   }
 
   navigate(page, param) {
@@ -29,12 +33,11 @@ export default class Page extends React.Component {
     if (page == 'signout') {
       SignOut()
       page = 'signedout'
-      window.pageStack = []
+      ClearPageStack()
     }
     else if (page == '_back') { // navigate to the previous page
-      if (typeof window.pageStack !== 'undefined' &&
-        window.pageStack.length > 0) {
-        let item = window.pageStack.pop()
+      let item = PopPage()
+      if (typeof item !== 'undefined') {
         page = item.page
         param = {...item.param, ...param} // merge _back param with the target
       }
@@ -44,12 +47,9 @@ export default class Page extends React.Component {
       }
     }
     else if (['home', 'signedin', 'signedout', 'signedup'].includes(page))
-      window.pageStack = []
-    else {
-      if (typeof window.pageStack === 'undefined')
-        window.pageStack = []
-      window.pageStack.push({page: this.state.page_name, param: this.state.page_param})
-    }
+      ClearPageStack()
+    else
+      PushPage(this.state.page_name, this.state.page_param)
     this.setState({page_name: page, page_param: param})
   }
 
@@ -126,7 +126,7 @@ export default class Page extends React.Component {
         body = (<ChangeEmail page={this} pageParam={param} onSuccessPage="_back"/>)
     }
 
-    if (typeof window.pageStack !== 'undefined' &&  window.pageStack.length > 0)
+    if (PageStackLength() > 0)
       want_back_button = true
 
     return (
