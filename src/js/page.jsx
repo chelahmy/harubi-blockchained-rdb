@@ -1,5 +1,5 @@
 import React from 'react'
-import {GetMenuLabel, GetPageSettings} from './_settings'
+import {GetMenuLabel, GetPageSettings} from './_utils'
 import Header from './header'
 import Title from './title'
 import Body from './body'
