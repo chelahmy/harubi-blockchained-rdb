@@ -1,4 +1,5 @@
 import React from 'react'
+import {FlashPageMessage} from './utils'
 import NarrowColumn from './narrow_column'
 import Space from './space'
 import Callout from './callout'
@@ -57,21 +58,11 @@ export default class Form extends React.Component {
         ev.preventDefault();
       })
 
-    if (typeof window.callOut !== 'undefined') {
-      let co = window.callOut
-      this.callout.show(co.title, co.message, co.type)
-      window.callOut = undefined
-    }
+    FlashPageMessage(this.callout)
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (typeof window.callOut !== 'undefined') {
-      let co = window.callOut
-      this.callout.show(co.title, co.message, co.type)
-      window.callOut = undefined
-    }
-    else
-      this.callout.hide()
+    FlashPageMessage(this.callout)
   }
 
   render() {

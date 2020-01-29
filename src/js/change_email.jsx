@@ -1,5 +1,5 @@
 import React from 'react'
-import {SetSignedInUserEmail} from './utils'
+import {SetSignedInUserEmail, SetPageMessage} from './utils'
 import Form from './form'
 import Input from './input'
 
@@ -43,11 +43,7 @@ export default class ChangeEmail extends React.Component {
       // Application implemented response
       if (resp_json.status != 0) {
         SetSignedInUserEmail(this.new_email)
-        window.callOut = {
-          title: 'Success',
-          message: 'Your email has been successfully updated.',
-          type: 'success'
-        }
+        SetPageMessage('Success', 'Your email has been successfully updated.', 'success')
         this.props.page.navigate(this.props.onSuccessPage)
       }
       else

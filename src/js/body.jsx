@@ -1,4 +1,5 @@
 import React from 'react'
+import {FlashPageMessage} from './utils'
 import NarrowColumn from './narrow_column'
 import MediumColumn from './medium_column'
 import WideColumn from './wide_column'
@@ -26,11 +27,7 @@ export default class Body extends React.Component {
         window.bodyDidLoad(this.myid)
         window.bodyDidLoad = undefined
     })
-    if (typeof window.callOut !== 'undefined') {
-      let co = window.callOut
-      this.callout.show(co.title, co.message, co.type)
-      window.callOut = undefined
-    }
+    FlashPageMessage(this.callout)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -41,13 +38,7 @@ export default class Body extends React.Component {
           window.bodyDidLoad = undefined
         }
       })
-    if (typeof window.callOut !== 'undefined') {
-      let co = window.callOut
-      this.callout.show(co.title, co.message, co.type)
-      window.callOut = undefined
-    }
-    else
-      this.callout.hide()
+    FlashPageMessage(this.callout)
   }
 
   render() {

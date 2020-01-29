@@ -89,6 +89,22 @@ function ClearPageStack() {
   window.pageStack = []
 }
 
+function SetPageMessage(title, message, type = '') {
+  window.callOut = {title: title, message: message, type: type}
+}
+
+function FlashPageMessage(callout) {
+  if (typeof callout !== 'undefined') {
+    if (typeof window.callOut !== 'undefined') {
+      let co = window.callOut
+      callout.show(co.title, co.message, co.type)
+      window.callOut = undefined
+    }
+    else
+      callout.hide()
+  }
+}
+
 export {
   Settings as default,
   GetMenuLabel,
@@ -102,5 +118,7 @@ export {
   PushPage,
   PopPage,
   PageStackLength,
-  ClearPageStack
+  ClearPageStack,
+  SetPageMessage,
+  FlashPageMessage
 }
