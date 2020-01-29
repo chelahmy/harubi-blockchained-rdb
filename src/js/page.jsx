@@ -1,5 +1,11 @@
 import React from 'react'
-import {GetMenuLabel, GetPageSettings} from './_utils'
+import {
+  GetMenuLabel,
+  GetPageSettings,
+  GetSignedInUser,
+  IsUserSignedIn,
+  IsSignedInUserAdmin
+} from './_utils'
 import Header from './header'
 import Title from './title'
 import Body from './body'
@@ -19,10 +25,11 @@ export default class Page extends React.Component {
   navigate(page, param) {
     console.log('navigate: ' + page)
     if (page == 'signedin')
-      console.log(window.user);
+      console.log(GetSignedInUser());
     if (page == 'signout') {
       SignOut()
       page = 'signedout'
+      window.pageStack = []
     }
     else if (page == '_back') { // navigate to the previous page
       if (typeof window.pageStack !== 'undefined' &&
@@ -54,7 +61,7 @@ export default class Page extends React.Component {
       // add default user menus
       if (typeof menu === 'undefined')
         menu = []
-      if (typeof window.user === 'undefined') {
+      if (!IsUserSignedIn()) {
         // If user has not signed in then
         // add signup and signin menus
         if (typeof button_menu === 'object') {
@@ -69,7 +76,7 @@ export default class Page extends React.Component {
         // and admin menu if the user is the administrator
         if (page != 'profile')
           menu.push({name: 'profile', label: GetMenuLabel('profile')})
-        if (window.user.admin == 1 && page != 'admin')
+        if (IsSignedInUserAdmin() && page != 'admin')
           menu.push({name: 'admin', label: GetMenuLabel('admin')})
         menu.push({name: 'signout', label: GetMenuLabel('signout')})
       }

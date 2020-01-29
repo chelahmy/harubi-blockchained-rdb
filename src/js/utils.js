@@ -30,4 +30,50 @@ function GetPageSettings(page) {
   return settings
 }
 
-export {Settings as default, GetMenuLabel, GetPageSettings}
+function SetSignedInUser(user) {
+  window.user = user
+}
+
+function SetSignedInUserEmail(email) {
+  if (typeof window.user !== 'undefined')
+    window.user.email = email
+}
+
+function GetSignedInUser() {
+  return window.user
+}
+
+function IsUserSignedIn() {
+  if (typeof window.user !== 'undefined' &&
+    typeof window.user.name !== 'undefined' &&
+    window.user.name.length > 0)
+    return true
+  return false
+}
+
+function IsSignedInUserAdmin() {
+  if (typeof window.user !== 'undefined' &&
+    typeof window.user.name !== 'undefined' &&
+    window.user.name.length > 0 &&
+    typeof window.user.admin !== 'undefined' &&
+    window.user.admin == 1)
+    return true
+  return false
+}
+
+function UnrefSignedInUser() {
+  if (typeof window.user !== 'undefined')
+    window.user = undefined
+}
+
+export {
+  Settings as default,
+  GetMenuLabel,
+  GetPageSettings,
+  SetSignedInUser,
+  SetSignedInUserEmail,
+  GetSignedInUser,
+  IsUserSignedIn,
+  IsSignedInUserAdmin,
+  UnrefSignedInUser
+}

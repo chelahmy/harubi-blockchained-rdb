@@ -1,4 +1,5 @@
 import React from 'react'
+import {SetSignedInUser, UnrefSignedInUser} from './utils'
 import Form from './form'
 import Input from './input'
 
@@ -11,8 +12,7 @@ export function SignOut() {
     method: 'POST',
     body: new URLSearchParams($.param(request))
   })
-  if (typeof window.user !== 'undefined')
-    delete window.user
+  UnrefSignedInUser()
 }
 
 export default class SignIn extends React.Component {
@@ -53,9 +53,9 @@ export default class SignIn extends React.Component {
       // Application implemented response
       if (resp_json.status != 0) {
         if (typeof resp_json.results !== 'undefined')
-          window.user = resp_json.results
+          SetSignedInUser(resp_json.results)
         else
-          window.user = {admin: 0, name: name}
+          SetSignedInUser({admin: 0, name: name})
         this.props.page.navigate(this.props.onSuccessPage)
       }
       else

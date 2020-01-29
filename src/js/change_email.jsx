@@ -1,4 +1,5 @@
 import React from 'react'
+import {SetSignedInUserEmail} from './utils'
 import Form from './form'
 import Input from './input'
 
@@ -41,8 +42,7 @@ export default class ChangeEmail extends React.Component {
     .then((resp_json) => {
       // Application implemented response
       if (resp_json.status != 0) {
-        if (typeof window.user !== 'undefined')
-            window.user.email = this.new_email
+        SetSignedInUserEmail(this.new_email)
         window.callOut = {
           title: 'Success',
           message: 'Your email has been successfully updated.',
