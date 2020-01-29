@@ -5,7 +5,7 @@ import {
   GetSignedInUser,
   IsUserSignedIn,
   IsSignedInUserAdmin
-} from './_utils'
+} from './utils'
 import Header from './header'
 import Title from './title'
 import Body from './body'
@@ -95,7 +95,7 @@ export default class Page extends React.Component {
     const page = this.state.page_name
     const param = this.state.page_param
     let menu, button_menu, title_bar, body
-    let want_back_button = true
+    let want_back_button = false
     let page_settings = GetPageSettings(page)
     let title = page_settings.title
 
@@ -126,8 +126,8 @@ export default class Page extends React.Component {
         body = (<ChangeEmail page={this} pageParam={param} onSuccessPage="_back"/>)
     }
 
-    if (typeof window.pageStack === 'undefined' || window.pageStack.length <= 0)
-      want_back_button = false
+    if (typeof window.pageStack !== 'undefined' &&  window.pageStack.length > 0)
+      want_back_button = true
 
     return (
       <div class="grid-container">
@@ -136,8 +136,8 @@ export default class Page extends React.Component {
             <Header
               applicationTitle={this.props.applicationTitle}
               menu={menu}
-              want_back_button={want_back_button}
-              button_menu={button_menu}
+              wantBackButton={want_back_button}
+              buttonMenu={button_menu}
               onMenuClick={this.navigate}/>
           </div>
           <div class="cell">
