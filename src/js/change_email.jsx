@@ -1,5 +1,6 @@
 import React from 'react'
 import {SetSignedInUserEmail, SetPageMessage} from './utils'
+import BackendRequest from './serve'
 import Form from './form'
 import Input from './input'
 
@@ -16,42 +17,23 @@ export default class ChangeEmail extends React.Component {
   }
 
   handleOnFormSubmit(ev,frm) {
-    // Get data from the form
     let data = new FormData(ev.target)
-    let name = data.get('name')
     this.new_email = data.get('email')
-    let request = {
+    BackendRequest({ // params
       model: 'user',
       action: 'update_own',
-      name: name,
       email: this.new_email
-    }
-    // Post the data to the server
-    fetch('/backend/serve.php', {
-      method: 'POST',
-      body: new URLSearchParams($.param(request))
-    })
-    // On server response
-    .then((respond) => {
-      if (respond.ok) // See the fetch() documentation for details
-        return respond.json() // pass to the next .then as resp_json
-      else
-        this.form.callOut('Server Error', 'Could not process the request', 'alert')
-    })
-    // On server respond.ok (see above)
-    .then((resp_json) => {
-      // Application implemented response
-      if (resp_json.status != 0) {
-        SetSignedInUserEmail(this.new_email)
-        SetPageMessage('Success', 'Your email has been successfully updated.', 'success')
-        this.props.page.navigate(this.props.onSuccessPage)
-      }
-      else
-        this.form.callOut('Server Response', resp_json.error_message, 'alert')
-    })
-    // On client or network error
-    .catch((error) => {
-      this.form.callOut('System Error', 'Could not deliver the request: ' + error, 'alert')
+    },
+    (resp) => { // success
+      SetSignedInUserEmail(this.new_email)
+      SetPageMessage('Success', 'Your email has been successfully updated.', 'success')
+      this.props.page.navigate(this.props.onSuccessPage)
+    },
+    (title, message) => { // error
+      this.form.callOut(title, message, 'alert')
+    },
+    () => { // reset
+      this.props.page.navigate('home')
     })
   }
 
