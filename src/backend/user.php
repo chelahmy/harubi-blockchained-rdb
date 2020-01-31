@@ -26,7 +26,7 @@ preset('permission_authenticated_user', function ($model, $action, &$ctrl_args)
 		return;
 
 	if (get_user_id() <= 0)
-		return respond_error(1000, "You have not signed in.");
+		return respond_error(1000, "You have not signed in or your session timed out.");
 });
 
 preset('permission_super_user', function ($model, $action, &$ctrl_args)
@@ -161,10 +161,26 @@ beat('user', 'read', function ($name)
 });
 
 // Update user own record
-beat('user', 'update_own', function ($password, $email)
+beat('user', 'update_own', function ($old_password, $new_password, $email)
 {
 	$name = $_SESSION['user']['name'];
 	$where = equ('name', $name, 'string');
+	$password = '';
+	$oplen = strlen($old_password);
+	$nplen = strlen($new_password);
+
+	if ($oplen > 0 || $nplen > 0) { // expecting to update password
+		if ($oplen > 0 && $nplen > 0 && strcmp($old_password, $new_password) != 0)
+		{
+			$records = read(['table' => 'user', 'where' => $where]);
+
+			if (count($records) > 0 && password_verify($old_password, $records[0]['password']))
+				$password = $new_password;
+		}
+
+		if (strlen($password) <= 0)
+			return respond_error(2, "Could not update user record.");
+	}
 
 	return _update_user($password, $email, $where);
 });
