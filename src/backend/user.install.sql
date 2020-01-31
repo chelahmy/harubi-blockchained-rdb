@@ -3,6 +3,7 @@ CREATE TABLE `user` (
   `name` varchar(32) NOT NULL,
   `password` varchar(60) NOT NULL,
   `email` varchar(80) NOT NULL,
+  `status` smallint(6) NOT NULL,
   `created_utc` int(11) NOT NULL,
   `updated_utc` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -13,4 +14,3 @@ ALTER TABLE `user`
 
 ALTER TABLE `user`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-

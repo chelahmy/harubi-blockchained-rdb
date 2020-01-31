@@ -10,6 +10,10 @@
 * - User with id=1 is the super-user who have all permissions.
 */
 
+// 1 February 2020
+// - Added status field. One of the uses is to mark user as cancelled.
+// - Added cancel_own action to cancel signed in user account.
+
 // NOTE: To allow for multiple require() of this module
 // all function declarations must be done elsewhere,
 // and be require_once().
@@ -31,7 +35,7 @@ preset('permission_authenticated_user', function ($model, $action, &$ctrl_args)
 
 preset('permission_super_user', function ($model, $action, &$ctrl_args)
 {
-	if ($model == 'user' && in_array($action, ['signup', 'signin', 'signout', 'read_own', 'update_own'])) // No need super-user permission
+	if ($model == 'user' && in_array($action, ['signup', 'signin', 'signout', 'cancel_own', 'read_own', 'update_own'])) // No need super-user permission
 		return;
 
 	if (is_super_user())
@@ -77,6 +81,7 @@ beat('user', 'signup', function ($name, $password, $email)
 			'name' => $name,
 			'password' => $hash,
 			'email' => $email,
+			'status' => 0,
 			'created_utc' => $now,
 			'updated_utc' => $now
 		));
@@ -101,7 +106,7 @@ beat('user', 'signin', function ($name, $password)
 
 	if (count($records) > 0)
 	{
-		if (password_verify($password, $records[0]['password']))
+		if ($records[0]['status'] == 0 && password_verify($password, $records[0]['password']))
 		{
 			$id = $records[0]['id'];
 			$name = $records[0]['name'];
@@ -131,6 +136,30 @@ beat('user', 'signout', function ()
 	unset($_SESSION['user']);
 
 	return respond_ok();
+});
+
+beat('user', 'cancel_own', function ($password)
+{
+	$name = $_SESSION['user']['name'];
+	$where = equ('name', $name, 'string');
+	$records = read(['table' => 'user', 'where' => $where]);
+
+	if (count($records) > 0)
+	{
+		if ($records[0]['status'] == 0 && password_verify($password, $records[0]['password']))
+		{
+			$now = time();
+
+			if (update('user', array('status' => 1, 'updated_utc' => $now), $where))
+			{
+				$_SESSION['user'] = null; // sign out user
+				unset($_SESSION['user']);
+				return respond_ok();
+			}
+		}
+	}
+
+	return respond_error(1, "Could not cancel user account.");
 });
 
 // Read user own record
