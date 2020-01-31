@@ -6,7 +6,7 @@ export default class Input extends React.Component {
   }
 
   render() {
-    let inprops = {}
+    let input, text = '', inprops = {}
 
     if (typeof this.props.name !== 'undefined') {
       inprops.name = this.props.name
@@ -31,11 +31,14 @@ export default class Input extends React.Component {
     if (typeof this.props.dataEqualTo !== 'undefined')
       inprops['data-equalto'] = this.props.dataEqualTo
 
-    let input = React.createElement('input', inprops)
+    if (typeof this.props.text !== 'undefined' && this.props.text.length > 0)
+      text = this.props.text
+
+    input = React.createElement('input', inprops)
 
     return (
       <label>{this.props.label}
-        {input}
+        {input}{text}
         <span class="form-error" data-form-error-for={this.props.name}>
           {this.props.errorMessage}
         </span>
