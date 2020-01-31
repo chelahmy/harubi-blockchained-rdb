@@ -89,6 +89,14 @@ const Settings = {
         component: 'change_email'
       }
     },
+    change_password: {
+      title: 'Change My Password',
+      want_title_bar: true,
+      menu: ['home', 'about'],
+      body: {
+        component: 'change_password'
+      }
+    },
     admin: {
       title: 'Administration',
       want_title_bar: true,

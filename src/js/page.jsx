@@ -16,6 +16,7 @@ import Body from './body'
 import SignUp from './signup'
 import SignIn, {SignOut} from './signin'
 import ChangeEmail from './change_email'
+import ChangePassword from './change_password'
 
 export default class Page extends React.Component {
   constructor(props) {
@@ -124,6 +125,8 @@ export default class Page extends React.Component {
         body = (<SignIn page={this} pageParam={param} onSuccessPage="signedin"/>)
       else if (comp == 'change_email')
         body = (<ChangeEmail page={this} pageParam={param} onSuccessPage="_back"/>)
+      else if (comp == 'change_password')
+        body = (<ChangePassword page={this} pageParam={param} onSuccessPage="_back"/>)
     }
 
     if (PageStackLength() > 0)
