@@ -17,6 +17,7 @@ import SignUp from './signup'
 import SignIn, {SignOut} from './signin'
 import ChangeEmail from './change_email'
 import ChangePassword from './change_password'
+import CancelAccount from './cancel_account'
 
 export default class Page extends React.Component {
   constructor(props) {
@@ -124,9 +125,11 @@ export default class Page extends React.Component {
       else if (comp == 'signin')
         body = (<SignIn page={this} pageParam={param} onSuccessPage="signedin"/>)
       else if (comp == 'change_email')
-        body = (<ChangeEmail page={this} pageParam={param} onSuccessPage="_back"/>)
+        body = (<ChangeEmail page={this} pageParam={param} onSuccessPage="_back" onResetPage="home"/>)
       else if (comp == 'change_password')
-        body = (<ChangePassword page={this} pageParam={param} onSuccessPage="_back"/>)
+        body = (<ChangePassword page={this} pageParam={param} onSuccessPage="_back" onResetPage="home"/>)
+      else if (comp == 'cancel_account')
+        body = (<CancelAccount page={this} pageParam={param} onSuccessPage="home" onResetPage="home"/>)
     }
 
     if (PageStackLength() > 0)

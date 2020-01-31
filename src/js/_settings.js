@@ -97,6 +97,14 @@ const Settings = {
         component: 'change_password'
       }
     },
+    cancel_account: {
+      title: 'Cancel My Account',
+      want_title_bar: true,
+      menu: ['home', 'about'],
+      body: {
+        component: 'cancel_account'
+      }
+    },
     admin: {
       title: 'Administration',
       want_title_bar: true,
