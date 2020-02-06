@@ -86,7 +86,9 @@ let serve = () => {
 		'src/js/*.js', 
 		'src/js/*.jsx', 
 		'src/js/components/*.js', 
-		'src/js/components/*.jsx'
+		'src/js/components/*.jsx',
+		'src/js/utils/*.js', 
+		'src/js/utils/*.jsx', 
 		], react).on('change', browserSync.reload)
 	gulp.watch(['src/*.html', 'src/*.php', 'src/img/*.*'], copy_statics).on('change', browserSync.reload)
 }
