@@ -10,9 +10,9 @@ import {
   PageStackLength,
   ClearPageStack
 } from './utils'
-import Header from './header'
-import Title from './title'
-import Body from './body'
+import Header from './components/header'
+import Title from './components/title'
+import Body from './components/body'
 import SignUp from './signup'
 import SignIn, {SignOut} from './signin'
 import ChangeEmail from './change_email'

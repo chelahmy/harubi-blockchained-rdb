@@ -1,8 +1,8 @@
 import React from 'react'
 import {SetPageMessage} from './utils'
 import BackendRequest from './serve'
-import Form from './form'
-import Input from './input'
+import Form from './components/form'
+import Input from './components/input'
 
 export default class ChangePassword extends React.Component {
   constructor(props) {

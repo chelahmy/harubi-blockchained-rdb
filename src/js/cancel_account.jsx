@@ -1,9 +1,9 @@
 import React from 'react'
 import {SetPageMessage, UnrefSignedInUser} from './utils'
 import BackendRequest from './serve'
-import Form from './form'
-import Input from './input'
-import Callout from './callout'
+import Form from './components/form'
+import Input from './components/input'
+import Callout from './components/callout'
 
 export default class CancelAccount extends React.Component {
   constructor(props) {

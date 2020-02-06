@@ -1,5 +1,5 @@
 import React from 'react'
-import {FlashPageMessage} from './utils'
+import {FlashPageMessage} from '../utils'
 import NarrowColumn from './narrow_column'
 import Space from './space'
 import Callout from './callout'

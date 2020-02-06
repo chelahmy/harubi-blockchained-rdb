@@ -1,5 +1,5 @@
 import React from 'react'
-import {FlashPageMessage} from './utils'
+import {FlashPageMessage} from '../utils'
 import NarrowColumn from './narrow_column'
 import MediumColumn from './medium_column'
 import WideColumn from './wide_column'
