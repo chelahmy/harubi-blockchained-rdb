@@ -5,13 +5,9 @@ import Form from './form'
 import Input from './input'
 
 export function SignOut() {
-  let request = {
+  BackendRequest({ // params
     model: 'user',
     action: 'signout'
-  }
-  fetch('/backend/serve.php', {
-    method: 'POST',
-    body: new URLSearchParams($.param(request))
   })
   UnrefSignedInUser()
 }
