@@ -1,6 +1,6 @@
 import React from 'react'
-import {SetPageMessage} from './utils'
-import BackendRequest from './serve'
+import {SetPageMessage} from './utils/utils'
+import BackendRequest from './utils/serve'
 import Form from './components/form'
 import Input from './components/input'
 

@@ -1,4 +1,4 @@
-import Settings from './_settings'
+import Settings from '../_settings'
 
 function GetMenuLabel(menu_item) {
   return Settings.menu[menu_item]

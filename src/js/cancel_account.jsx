@@ -1,6 +1,6 @@
 import React from 'react'
-import {SetPageMessage, UnrefSignedInUser} from './utils'
-import BackendRequest from './serve'
+import {SetPageMessage, UnrefSignedInUser} from './utils/utils'
+import BackendRequest from './utils/serve'
 import Form from './components/form'
 import Input from './components/input'
 import Callout from './components/callout'
