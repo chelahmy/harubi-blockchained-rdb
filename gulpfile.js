@@ -82,7 +82,12 @@ let serve = () => {
 
 	gulp.watch('src/backend/**/*', copy_backend)
 	gulp.watch('src/scss/*.scss', sass).on('change', browserSync.reload)
-	gulp.watch(['src/js/*.js', 'src/js/*.jsx'], react).on('change', browserSync.reload)
+	gulp.watch([
+		'src/js/*.js', 
+		'src/js/*.jsx', 
+		'src/js/components/*.js', 
+		'src/js/components/*.jsx'
+		], react).on('change', browserSync.reload)
 	gulp.watch(['src/*.html', 'src/*.php', 'src/img/*.*'], copy_statics).on('change', browserSync.reload)
 }
 
