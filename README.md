@@ -39,7 +39,7 @@ $ npm i
 ```
 
 ### Database setup
-Create a MySQL database and update the `src/backend/settings.inc` file with the database settings. Then create the `user` table using the `src/backend/user.install.sql` script. Please refer to [harubi](https://github.com/chelahmy/harubi) for more details.
+Create a MySQL database and update the `src/backend/settings.inc` file with the new database settings. Then create the `user` table using the `src/backend/user.install.sql` script. Please refer to [harubi](https://github.com/chelahmy/harubi) for more details.
 
 ## How-to
 Start the project.
