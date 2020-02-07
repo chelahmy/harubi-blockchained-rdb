@@ -1,5 +1,5 @@
 # Harubi Front
-Harubi Front is a web application development framework. Today, every new application is developed based on frameworks. An application serves a purpose. However, to serve the purpose the application needs fundamental supports such as user management, multi-page navigation, internationalization/translations, data entry and visualization, searching and filtering, database management, etc. Those fundamental supports are being provided by frameworks. A framework will free developers from the fundamental works, and will let them focus on developing the true purpose of the application. 
+Harubi Front is a web application development framework. Today, every new application is developed based on frameworks. Every application serves a specific and perhaps a unique purpose. However, to serve its purpose any application needs general fundamental supports such as user management, multi-page navigation, internationalization/translations, data entry and visualization, searching and filtering, database management, etc. Those fundamental supports are being provided by frameworks. A framework will free developers from the fundamental works, and will let them focus on developing the true purpose of the application. 
 
 ### Features
 - Mobile first web application.
