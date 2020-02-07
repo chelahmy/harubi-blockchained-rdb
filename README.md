@@ -54,7 +54,7 @@ The tool-chain will build the project into the `dist` folder and run it in a bro
 
 Begin with the `src/index.html`, `src/js/app.js`, `src/scss/app.scss` and `src/backend/serve.php` files. The resulting `dist` is standalone and can be deployed to a PHP and MySQL web server.
 
-For building the project without watching the source files and triggering the browser
+For building the project without watching the changes in the source files and triggering the browser
 ```
 $ npm run build
 ```
