@@ -1,12 +1,12 @@
 import React from 'react'
 
-export default class Input extends React.Component {
+export default class TextArea extends React.Component {
   constructor(props) {
     super(props)
   }
 
   render() {
-    let input, text = '', inprops = {}
+    let textarea, inprops = {}
 
     if (typeof this.props.name !== 'undefined') {
       inprops.name = this.props.name
@@ -34,15 +34,14 @@ export default class Input extends React.Component {
     if (typeof this.props.dataValidator !== 'undefined')
       inprops['data-validator'] = this.props.dataValidator
 
-    if (typeof this.props.text !== 'undefined' && this.props.text.length > 0)
-      text = this.props.text
+    inprops.style = {height: "auto"}
 
-    input = React.createElement('input', inprops)
+    textarea = React.createElement('textarea', inprops)
 
     return (
       <div>
         <label>{this.props.label}
-          {input}{text}
+          {textarea}
           <span class="form-error" data-form-error-for={this.props.name}>
             {this.props.errorMessage}
           </span>

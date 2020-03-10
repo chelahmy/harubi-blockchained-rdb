@@ -32,6 +32,11 @@ function GetPageSettings(page) {
 
 function SetSignedInUser(user) {
   window.user = user
+  let signedin = 'signedin_' + user.name
+  let cnt = localStorage.getItem(signedin)
+  if (typeof cnt === 'undefined' || cnt === null)
+    cnt = 0
+  localStorage.setItem(signedin, parseInt(cnt) + 1)
 }
 
 function SetSignedInUserEmail(email) {
@@ -41,6 +46,18 @@ function SetSignedInUserEmail(email) {
 
 function GetSignedInUser() {
   return window.user
+}
+
+function GetSignedInUserCount() {
+  if (typeof window.user === 'undefined' ||
+    typeof window.user.name === 'undefined' ||
+    window.user.name.length <= 0)
+    return 0
+  let signedin = 'signedin_' + window.user.name
+  let cnt = localStorage.getItem(signedin)
+  if (typeof cnt === 'undefined' || cnt === null)
+    cnt = 0
+  return parseInt(cnt)
 }
 
 function IsUserSignedIn() {

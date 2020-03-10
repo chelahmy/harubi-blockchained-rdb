@@ -1,9 +1,13 @@
-<h1>Welcome, <em><span id='user_name'></span></em>!</h1>
+<h1>Welcome<span id='welcome_back'></span>, <em><span id='user_name'></span></em>!</h1>
 <p>Harubi Front is ready for you. You may view your <a onclick="pageNavigate('profile')">profile</a>.</p>
 
 <script type="text/javascript">
 function bodyDidLoad(id) {
-  if (typeof window.user !== 'undefined')
+  if (typeof window.user !== 'undefined') {
     $('#user_name').text(window.user.name)
+    let cnt = localStorage.getItem('signedin_' + window.user.name)
+    if (parseInt(cnt) > 1)
+      $('#welcome_back').text(' ' + 'back')
+  }
 }
 </script>

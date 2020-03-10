@@ -64,7 +64,7 @@ preset('permission_change_user', function ($model, $action, &$ctrl_args)
 	}
 });
 
-beat('user', 'signup', function ($name, $password, $email)
+beat('user', 'signup', function ($name, $password, $email, $seed)
 {
 	// Delay the next same user sign up for 5 minutes to deter spamming
 	if (isset($_SESSION['last_reg']) && (time() - $_SESSION['last_reg']) < 300)
@@ -81,6 +81,7 @@ beat('user', 'signup', function ($name, $password, $email)
 			'name' => $name,
 			'password' => $hash,
 			'email' => $email,
+			'seed' => $seed,
 			'status' => 0,
 			'created_utc' => $now,
 			'updated_utc' => $now
@@ -111,17 +112,20 @@ beat('user', 'signin', function ($name, $password)
 			$id = $records[0]['id'];
 			$name = $records[0]['name'];
 			$email = $records[0]['email'];
+			$seed = $records[0]['seed'];
 			$created_utc = $records[0]['created_utc'];
 			$_SESSION['user'] = [];
 			$_SESSION['user']['id'] = $id;
 			$_SESSION['user']['name'] = $name;
 			$_SESSION['user']['email'] = $email;
+			$_SESSION['user']['seed'] = $seed;
 			$_SESSION['user']['created_utc'] = $created_utc;
 
 			return respond_ok([
 				'admin' => $id == 1 ? 1 : 0,
 				'name' => $name,
 				'email' => $email,
+				'seed' => $seed,
 				'created_utc' => $created_utc
 			]);
 		}
@@ -168,6 +172,7 @@ beat('user', 'read_own', function ()
 	return respond_ok([
 		'name' => $_SESSION['user']['name'],
 		'email' => $_SESSION['user']['email'],
+		'seed' => $_SESSION['user']['seed'],
 		'created_utc' => $_SESSION['user']['created_utc']
 	]);
 });
@@ -190,7 +195,7 @@ beat('user', 'read', function ($name)
 });
 
 // Update user own record
-beat('user', 'update_own', function ($old_password, $new_password, $email)
+beat('user', 'update_own', function ($old_password, $new_password, $email, $seed)
 {
 	$name = $_SESSION['user']['name'];
 	$where = equ('name', $name, 'string');
@@ -211,14 +216,14 @@ beat('user', 'update_own', function ($old_password, $new_password, $email)
 			return respond_error(2, "Could not update user record.");
 	}
 
-	return _update_user($password, $email, $where);
+	return _update_user($password, $email, $seed, $where);
 });
 
 beat('user', 'update', function ($name, $password, $email)
 {
 	$where = equ('name', $name, 'string');
 
-	return _update_user($password, $email, $where);
+	return _update_user($password, $email, '', $where);
 });
 
 beat('user', 'delete', function ($name)

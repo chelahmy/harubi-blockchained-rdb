@@ -8,11 +8,11 @@ const app_title = Settings.application_title
 document.title = app_title
 
 $(document).ready(() => {
-    $(document).foundation()
-    // Note: ReactDOM.render() MUST NOT be placed here.
-    // Otherwise, foundation() will not take effect on
-    // react components such as Header which implements
-    // Foundation responsive menu.
+  $(document).foundation()
+  // Note: ReactDOM.render() MUST NOT be placed here.
+  // Otherwise, foundation() will not take effect on
+  // react components such as Header which implements
+  // Foundation responsive menu.
 })
 
 import Foundation from 'foundation-sites'

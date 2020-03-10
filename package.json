@@ -1,7 +1,7 @@
 {
-  "name": "harubi-front",
+  "name": "harubi-blockchain-rdb",
   "version": "1.0.0",
-  "description": "A front-end for harubi.",
+  "description": "Harubi Blockchain Relational Database.",
   "main": "gulpfile.js",
   "scripts": {
     "start": "gulp",
@@ -20,6 +20,7 @@
     "@babel/core": "^7.6.4",
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-react": "^7.6.3",
+    "@babel/preset-typescript": "^7.8.3",
     "autoprefixer": "^9.6.5",
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.26.7",
@@ -32,6 +33,7 @@
     "webpack-stream": "^5.2.1"
   },
   "dependencies": {
+    "@waves/ts-lib-crypto": "^1.4.3",
     "foundation-sites": "^6.5.3",
     "jquery": "^3.4.1",
     "motion-ui": "^2.0.3",

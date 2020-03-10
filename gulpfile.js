@@ -5,6 +5,18 @@ const browserSync   = require('browser-sync').create()
 const $             = require('gulp-load-plugins')()
 const autoprefixer  = require('autoprefixer')
 
+/*
+Supporting Typescript modules:
+1. Install Typescript preset for babel:
+$ npm -i --save-dev @babel/preset-typescript
+2. Webpack settings:
+- module->rules->options->presets:['@babel/typescript']
+- module->rules->tests: /\.(js|ts)x?$/
+- resolve->extensions:['.ts', '.tsx', '.json']
+3. Files to watch:
+- '*.ts', '*.tsx', '*.json'
+*/
+
 let copy_backend = () => {
 	return gulp.src([
 			'src/backend/**/*'
@@ -39,15 +51,15 @@ let react = () => {
 			},
 			module: {
 				rules: [{
-					test: /\.jsx?$/,
+					test: /\.(js|ts)x?$/,
 					loader: 'babel-loader',
 					options: {
-						presets: ['@babel/env', '@babel/react']
+						presets: ['@babel/env', '@babel/react', '@babel/typescript']
 					}
 				}]
 			},
 			resolve: {
-				extensions: ['.js', '.jsx']
+				extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
 			}
 		}))
 		.pipe(gulp.dest('dist/js'))
@@ -83,13 +95,22 @@ let serve = () => {
 	gulp.watch('src/backend/**/*', copy_backend)
 	gulp.watch('src/scss/*.scss', sass).on('change', browserSync.reload)
 	gulp.watch([
-		'src/js/*.js', 
+		'src/js/*.js',
 		'src/js/*.jsx', 
+		'src/js/*.ts', 
+		'src/js/*.tsx', 
+		'src/js/*.json',
 		'src/js/components/*.js', 
 		'src/js/components/*.jsx',
+		'src/js/components/*.ts', 
+		'src/js/components/*.tsx',
+		'src/js/components/*.json', 
 		'src/js/utils/*.js', 
 		'src/js/utils/*.jsx', 
-		], react).on('change', browserSync.reload)
+		'src/js/utils/*.ts', 
+		'src/js/utils/*.tsx', 
+		'src/js/utils/*.json'
+		], react) //.on('change', browserSync.reload)
 	gulp.watch(['src/*.html', 'src/*.php', 'src/img/*.*'], copy_statics).on('change', browserSync.reload)
 }
 

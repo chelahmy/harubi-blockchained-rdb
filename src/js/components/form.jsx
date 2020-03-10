@@ -11,6 +11,10 @@ export default class Form extends React.Component {
 
     this.handleOnCalloutMount = this.handleOnCalloutMount.bind(this)
     this.handleOnReset = this.handleOnReset.bind(this)
+    this.callOut = this.callOut.bind(this)
+    this.getEle = this.getEle.bind(this)
+    this.addErrorClasses = this.addErrorClasses.bind(this)
+    this.removeErrorClasses = this.removeErrorClasses.bind(this)
 
     if (typeof window.page_form_id === 'undefined')
       window.page_form_id = 0
@@ -36,6 +40,18 @@ export default class Form extends React.Component {
     }
   }
 
+  getEle() {
+      return $('#' + this.myid)
+  }
+
+  addErrorClasses(field) {
+    $('#' + this.myid).foundation('addErrorClasses', $('#' + field))
+  }
+
+  removeErrorClasses(field) {
+    $('#' + this.myid).foundation('removeErrorClasses', $('#' + field))
+  }
+
   componentDidMount() {
     if (typeof this.props.onMount !== 'undefined')
       this.props.onMount(this)
@@ -43,11 +59,30 @@ export default class Form extends React.Component {
     let ele = $('#' + this.myid)
     // Re-initialize Foundation since React alters DOM
     if (!$(ele).data('zfPlugin')) {
-        $(ele).foundation()
+      $(ele).foundation()
     }
 
     let onSubmit = this.props.onSubmit
+    let tform = this;
     $(ele)
+      // field element is valid
+      .on("valid.zf.abide", function(ev,elem) {
+        let name = elem.attr('name')
+        let pattern = elem.attr('pattern')
+        if (typeof pattern !== "undefined") {
+          console.log(pattern);
+          if (!(pattern in Foundation.Abide.defaults.patterns)) {
+            console.log("unknown pattern");
+            console.log(ev.target.value);
+            let valid = new RegExp(pattern).test(ev.target.value);
+            if (valid)
+              tform.removeErrorClasses(name);
+            else
+              tform.addErrorClasses(name);
+          }
+        }
+        //console.log("Field name "+elem.attr('name')+" is valid");
+      })
       // form validation passed, form will submit if submit event not returned false
       .on("formvalid.zf.abide", function(ev,frm) {
         if (typeof onSubmit !== 'undefined')

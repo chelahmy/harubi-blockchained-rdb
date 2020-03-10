@@ -7,9 +7,9 @@
 
 	"mysql" : {
 		"hostname" : "localhost",
-		"username" : "username",
-		"password" : "password",
-		"database" : "harubi_front",
+		"username" : "",
+		"password" : "",
+		"database" : "harubi_brdb",
 		"prefix"   : ""
 	},
 
@@ -19,6 +19,8 @@
 			"name" : "string",
 			"password" : "string",
 			"email" : "string",
+			"seed" : "string",
+			"status" : "int",
 			"created_utc" : "int",
 			"updated_utc" : "int"
 		}

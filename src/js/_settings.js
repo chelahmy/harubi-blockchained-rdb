@@ -1,5 +1,5 @@
 const Settings = {
-  application_title: "Harubi Front",
+  application_title: "Harubi Blockchain Relational Database",
   menu: {
     home: 'Home',
     about: 'About',
