@@ -58,6 +58,14 @@ function idcol($name) {
   return ["name" => $name, "type" => "bigint", "size" => 20];
 }
 
+function add_signcols(&$clist) {
+  $clist[] = idcol("timestamp_id");
+  $clist[] = idcol("user_id");
+  $clist[] = ["name" => "digest", "type" => "varbinary", "size" => 32];
+  $clist[] = ["name" => "signature", "type" => "varchar", "size" => 255];
+  return $clist;
+}
+
 function generate($filename = "hbrdb.json") {
   $str = "";
   $fd = file_get_contents($filename);
@@ -68,6 +76,7 @@ function generate($filename = "hbrdb.json") {
     foreach ($table["columns"] as $cname => $column) {
       $clist[] = array_merge(["name" => $cname], $column);
     }
+    add_signcols($clist);
     $str .= create_table_str($tname, clist_str($clist)) . PHP_EOL;
     $klist = [["primary", "id", "id"]];
     foreach ($table["keys"] as $kname => $key) {
@@ -79,6 +88,7 @@ function generate($filename = "hbrdb.json") {
     foreach ($table["columns"] as $cname => $column) {
       $clist[] = array_merge(["name" => $cname], $column);
     }
+    add_signcols($clist);
     $str .= create_table_str($tname . "_rev", clist_str($clist)) . PHP_EOL;
     $klist = [["primary", "id", "id"]];
     $str .= add_keys_str($tname . "_rev", $klist) . PHP_EOL;
