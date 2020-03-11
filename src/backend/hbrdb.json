@@ -1,0 +1,32 @@
+{
+  "tables" : {
+    "user" : {
+      "columns" : {
+        "name" : {
+          "type" : "varchar",
+          "size" : 32
+        },
+        "password" : {
+          "type" : "varchar",
+          "size" : 60
+        },
+        "email" : {
+          "type" : "varchar",
+          "size" : 80
+        },
+        "seed" : {
+          "type" : "varchar",
+          "size" : 255
+        },
+        "pubkey" : {
+          "type" : "varchar",
+          "size" : 60
+        }
+      },
+      "keys" : {
+        "name" : ["unique", "name"],
+        "email" : ["unique", "email"]
+      }
+    }
+  }
+}
