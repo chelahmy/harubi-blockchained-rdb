@@ -54,6 +54,12 @@ function add_keys_str($tname, $keys) {
   return $str . $kstr . ";" . PHP_EOL;
 }
 
+function add_autoinc_str($tname) {
+  $str = "ALTER TABLE `$tname`" . PHP_EOL;
+  $str .= "  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;" . PHP_EOL;
+  return $str;
+}
+
 function idcol($name) {
   return ["name" => $name, "type" => "bigint", "size" => 20];
 }
@@ -95,6 +101,7 @@ function generate($filename = "hbrdb.json") {
     }
     add_statuskey($klist);
     $str .= add_keys_str($tname, $klist) . PHP_EOL;
+    $str .= add_autoinc_str($tname) . PHP_EOL;
     // revision table
     $clist = [idcol("id"), idcol("prev_id"), idcol($tname . "_id")];
     foreach ($table["columns"] as $cname => $column) {
@@ -102,9 +109,11 @@ function generate($filename = "hbrdb.json") {
     }
     add_statuscols($clist);
     add_signcols($clist);
-    $str .= create_table_str($tname . "_rev", clist_str($clist)) . PHP_EOL;
+    $tname_rev = $tname . "_rev";
+    $str .= create_table_str($tname_rev, clist_str($clist)) . PHP_EOL;
     $klist = [["primary", "id", "id"]];
-    $str .= add_keys_str($tname . "_rev", $klist) . PHP_EOL;
+    $str .= add_keys_str($tname_rev, $klist) . PHP_EOL;
+    $str .= add_autoinc_str($tname_rev) . PHP_EOL;
   }
   return $str;
 }
