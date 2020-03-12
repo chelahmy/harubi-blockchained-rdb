@@ -60,7 +60,7 @@ function idcol($name) {
 
 function add_signcols(&$clist) {
   $clist[] = idcol("timestamp_id");
-  $clist[] = idcol("user_id");
+  $clist[] = idcol("user_rev_id");
   $clist[] = ["name" => "digest", "type" => "varbinary", "size" => 32];
   $clist[] = ["name" => "signature", "type" => "varchar", "size" => 255];
   return $clist;
