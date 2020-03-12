@@ -5,6 +5,8 @@
 // 10 March 2020
 
 function colstr($name, $type, $size) {
+  if ($type == "datetime")
+    return "`$name` $type NOT NULL";
   return "`$name` $type($size) NOT NULL";
 }
 
@@ -13,7 +15,10 @@ function clist_str($list) {
   foreach ($list as $item) {
     if (strlen($str) > 0)
       $str .= "," . PHP_EOL;
-    $str .= "  " . colstr($item['name'], $item['type'], $item['size']);
+    if (isset($item['size']))
+      $str .= "  " . colstr($item['name'], $item['type'], $item['size']);
+    else
+      $str .= "  " . colstr($item['name'], $item['type'], 0);
   }
   if (strlen($str) > 0)
     $str .= PHP_EOL;
@@ -82,7 +87,33 @@ function add_signcols(&$clist) {
   return $clist;
 }
 
-function request_table_str() {
+function create_timestamp_table_str() {
+  $clist = [idcol("id")];
+  $clist[] = ["name" => "timestamp", "type" => "datetime"];
+  add_signcols($clist);
+  $tname = "timestamp";
+  $str = create_table_str($tname, clist_str($clist)) . PHP_EOL;
+  $klist = [["primary", "id", "id"]];
+  $klist[] = ["key", "timestamp", "timestamp"];
+  $str .= add_keys_str($tname, $klist) . PHP_EOL;
+  $str .= add_autoinc_str($tname) . PHP_EOL;
+  return $str;
+}
+
+function create_table_table_str() {
+  $clist = [idcol("id")];
+  $clist[] = ["name" => "name", "type" => "varchar", "size" => 255];
+  add_signcols($clist);
+  $tname = "table";
+  $str = create_table_str($tname, clist_str($clist)) . PHP_EOL;
+  $klist = [["primary", "id", "id"]];
+  $klist[] = ["unique", "name", "name"];
+  $str .= add_keys_str($tname, $klist) . PHP_EOL;
+  $str .= add_autoinc_str($tname) . PHP_EOL;
+  return $str;
+}
+
+function create_request_table_str() {
   $clist = [idcol("id"), idcol("user_id"), idcol("table_id"), idcol("row_id"), idcol("row_rev_id")];
   add_signcols($clist);
   $tname = "request";
@@ -131,7 +162,9 @@ function generate($filename = "hbrdb.json") {
     $str .= add_keys_str($tname_rev, $klist) . PHP_EOL;
     $str .= add_autoinc_str($tname_rev) . PHP_EOL;
   }
-  $str .= request_table_str();
+  $str .= create_timestamp_table_str();
+  $str .= create_table_table_str();
+  $str .= create_request_table_str();
   return $str;
 }
 
