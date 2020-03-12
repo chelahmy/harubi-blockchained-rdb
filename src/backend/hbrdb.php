@@ -58,6 +58,16 @@ function idcol($name) {
   return ["name" => $name, "type" => "bigint", "size" => 20];
 }
 
+function add_statuscols(&$clist) {
+  $clist[] = ["name" => "status", "type" => "int", "size" => 11];
+  return $clist;
+}
+
+function add_statuskey(&$keys) {
+  $keys[] = ["key", "status", "status"];
+  return $keys;
+}
+
 function add_signcols(&$clist) {
   $clist[] = idcol("timestamp_id");
   $clist[] = idcol("user_rev_id");
@@ -76,18 +86,21 @@ function generate($filename = "hbrdb.json") {
     foreach ($table["columns"] as $cname => $column) {
       $clist[] = array_merge(["name" => $cname], $column);
     }
+    add_statuscols($clist);
     add_signcols($clist);
     $str .= create_table_str($tname, clist_str($clist)) . PHP_EOL;
     $klist = [["primary", "id", "id"]];
     foreach ($table["keys"] as $kname => $key) {
       $klist[] = array_merge($key, [$kname]);
     }
+    add_statuskey($klist);
     $str .= add_keys_str($tname, $klist) . PHP_EOL;
     // revision table
     $clist = [idcol("id"), idcol("prev_id"), idcol($tname . "_id")];
     foreach ($table["columns"] as $cname => $column) {
       $clist[] = array_merge(["name" => $cname], $column);
     }
+    add_statuscols($clist);
     add_signcols($clist);
     $str .= create_table_str($tname . "_rev", clist_str($clist)) . PHP_EOL;
     $klist = [["primary", "id", "id"]];
