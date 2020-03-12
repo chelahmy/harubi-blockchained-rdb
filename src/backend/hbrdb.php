@@ -35,7 +35,7 @@ function add_keys_str($tname, $keys) {
     if (is_array($key[1])) {
       foreach ($key[1] as $col) {
         if (strlen($clist) > 0)
-          $clist .= ",";
+          $clist .= ", ";
         $clist .= "`$col`";
       }
     }
@@ -82,6 +82,22 @@ function add_signcols(&$clist) {
   return $clist;
 }
 
+function request_table_str() {
+  $clist = [idcol("id"), idcol("user_id"), idcol("table_id"), idcol("row_id"), idcol("row_rev_id")];
+  add_signcols($clist);
+  $tname = "request";
+  $str = create_table_str($tname, clist_str($clist)) . PHP_EOL;
+  $klist = [["primary", "id", "id"]];
+  $klist[] = ["key", "user_id", "user_id"];
+  $klist[] = ["key", "table_id", "table_id"];
+  $klist[] = ["key", ["table_id", "table_row_id"], "table_row_id"];
+  $klist[] = ["key", ["user_id", "table_id"], "user_table_id"];
+  $klist[] = ["key", ["user_id", "table_id", "table_row_id"], "user_table_row_id"];
+  $str .= add_keys_str($tname, $klist) . PHP_EOL;
+  $str .= add_autoinc_str($tname) . PHP_EOL;
+  return $str;
+}
+
 function generate($filename = "hbrdb.json") {
   $str = "";
   $fd = file_get_contents($filename);
@@ -115,6 +131,7 @@ function generate($filename = "hbrdb.json") {
     $str .= add_keys_str($tname_rev, $klist) . PHP_EOL;
     $str .= add_autoinc_str($tname_rev) . PHP_EOL;
   }
+  $str .= request_table_str();
   return $str;
 }
 
