@@ -80,7 +80,7 @@ function add_statuskey(&$keys) {
 }
 
 function add_signcols(&$clist) {
-  $clist[] = idcol("timestamp_id");
+  $clist[] = ["name" => "timestamp", "type" => "datetime"];
   $clist[] = idcol("user_rev_id");
   $clist[] = ["name" => "digest", "type" => "varbinary", "size" => 32];
   $clist[] = ["name" => "signature", "type" => "varchar", "size" => 255];
@@ -142,6 +142,20 @@ function create_activity_table_str() {
   return $str;
 }
 
+function create_block_table_str() {
+  $clist = [idcol("id"), idcol("activity_start_id"), idcol("activity_end_id")];
+  $clist[] = ["name" => "activity_digest", "type" => "varbinary", "size" => 32];
+  $clist[] = ["name" => "timestamp", "type" => "datetime"];
+  $clist[] = ["name" => "nonce", "type" => "bigint", "size" => 20];
+  $clist[] = ["name" => "digest", "type" => "varbinary", "size" => 32];
+  $tname = "block";
+  $str = create_table_str($tname, clist_str($clist)) . PHP_EOL;
+  $klist = [["primary", "id", "id"]];
+  $str .= add_keys_str($tname, $klist) . PHP_EOL;
+  $str .= add_autoinc_str($tname) . PHP_EOL;
+  return $str;
+}
+
 function generate($filename = "hbrdb.json") {
   $str = "";
   $fd = file_get_contents($filename);
@@ -175,10 +189,11 @@ function generate($filename = "hbrdb.json") {
     $str .= add_keys_str($tname_rev, $klist) . PHP_EOL;
     $str .= add_autoinc_str($tname_rev) . PHP_EOL;
   }
-  $str .= create_timestamp_table_str();
+  //$str .= create_timestamp_table_str();
   $str .= create_table_table_str();
   $str .= create_request_table_str();
   $str .= create_activity_table_str();
+  $str .= create_block_table_str();
   return $str;
 }
 
