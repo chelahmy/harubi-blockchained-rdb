@@ -129,6 +129,19 @@ function create_request_table_str() {
   return $str;
 }
 
+function create_activity_table_str() {
+  $clist = [idcol("id"), idcol("table_id"), idcol("row_id"), idcol("row_rev_id")];
+  $tname = "activity";
+  $str = create_table_str($tname, clist_str($clist)) . PHP_EOL;
+  $klist = [["primary", "id", "id"]];
+  $klist[] = ["key", "table_id", "table_id"];
+  $klist[] = ["key", ["table_id", "table_row_id"], "table_row_id"];
+  $klist[] = ["unique", ["table_id", "table_row_id", "table_row_rev_id"], "table_row_rev_id"];
+  $str .= add_keys_str($tname, $klist) . PHP_EOL;
+  $str .= add_autoinc_str($tname) . PHP_EOL;
+  return $str;
+}
+
 function generate($filename = "hbrdb.json") {
   $str = "";
   $fd = file_get_contents($filename);
@@ -165,6 +178,7 @@ function generate($filename = "hbrdb.json") {
   $str .= create_timestamp_table_str();
   $str .= create_table_table_str();
   $str .= create_request_table_str();
+  $str .= create_activity_table_str();
   return $str;
 }
 
