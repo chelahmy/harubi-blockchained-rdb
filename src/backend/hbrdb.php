@@ -1,6 +1,6 @@
 <?php
 // hbrdb.php
-// Harubi Blockchain Relational Database Generator
+// Harubi Blockchained Relational Database Generator
 // By Abdullah Daud, chelahmy@gmail.com
 // 10 March 2020
 
@@ -82,8 +82,9 @@ function add_statuskey(&$keys) {
 function add_signcols(&$clist) {
   $clist[] = ["name" => "timestamp", "type" => "datetime"];
   $clist[] = idcol("user_rev_id");
-  $clist[] = ["name" => "digest", "type" => "varbinary", "size" => 32];
+  $clist[] = ["name" => "hash", "type" => "varbinary", "size" => 32];
   $clist[] = ["name" => "signature", "type" => "varchar", "size" => 255];
+  $clist[] = ["name" => "signature_hash", "type" => "varbinary", "size" => 32];
   return $clist;
 }
 
@@ -144,10 +145,10 @@ function create_activity_table_str() {
 
 function create_block_table_str() {
   $clist = [idcol("id"), idcol("activity_start_id"), idcol("activity_end_id")];
-  $clist[] = ["name" => "activity_digest", "type" => "varbinary", "size" => 32];
+  $clist[] = ["name" => "activity_root_hash", "type" => "varbinary", "size" => 32];
   $clist[] = ["name" => "timestamp", "type" => "datetime"];
   $clist[] = ["name" => "nonce", "type" => "bigint", "size" => 20];
-  $clist[] = ["name" => "digest", "type" => "varbinary", "size" => 32];
+  $clist[] = ["name" => "hash", "type" => "varbinary", "size" => 32];
   $tname = "block";
   $str = create_table_str($tname, clist_str($clist)) . PHP_EOL;
   $klist = [["primary", "id", "id"]];
