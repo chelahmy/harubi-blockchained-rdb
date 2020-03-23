@@ -82,9 +82,7 @@ function add_statuskey(&$keys) {
 function add_signcols(&$clist) {
   $clist[] = ["name" => "timestamp", "type" => "datetime"];
   $clist[] = idcol("user_rev_id");
-  $clist[] = ["name" => "hash", "type" => "varbinary", "size" => 32];
   $clist[] = ["name" => "signature", "type" => "varchar", "size" => 255];
-  $clist[] = ["name" => "signature_hash", "type" => "varbinary", "size" => 32];
   return $clist;
 }
 
@@ -145,7 +143,7 @@ function create_activity_table_str() {
 
 function create_block_table_str() {
   $clist = [idcol("id"), idcol("activity_start_id"), idcol("activity_end_id")];
-  $clist[] = ["name" => "activity_root_hash", "type" => "varbinary", "size" => 32];
+  $clist[] = ["name" => "activity_final_hash", "type" => "varbinary", "size" => 32];
   $clist[] = ["name" => "timestamp", "type" => "datetime"];
   $clist[] = ["name" => "nonce", "type" => "bigint", "size" => 20];
   $clist[] = ["name" => "hash", "type" => "varbinary", "size" => 32];
