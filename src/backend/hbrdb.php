@@ -155,7 +155,7 @@ function create_block_table_str() {
   return $str;
 }
 
-function generate($filename = "hbrdb.json") {
+function generate_tables($filename = "hbrdb.json") {
   $str = "";
   $fd = file_get_contents($filename);
   $dt = json_decode($fd, TRUE);
@@ -196,6 +196,6 @@ function generate($filename = "hbrdb.json") {
   return $str;
 }
 
-echo generate();
+echo generate_tables();
 
 ?>
