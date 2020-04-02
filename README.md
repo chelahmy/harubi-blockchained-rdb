@@ -1,4 +1,9 @@
-# Harubi Front
+# Harubi Blockchained Relational Database Framework
+A blockchained relational database (BRDB) is an immutable relational database based of blockchain methodology. This Harubi BRDB framework is based on Harubi and Harubi Front frameworks.
+
+**This is A Work-In-Progress**
+
+## Harubi Front
 Every new application development will be based on some sort of frameworks. Harubi Front is a web application development framework. An application is developed to serve specific and perhaps unique purposes. However, to serve its purposes an application may need general fundamental supports such as user management, multi-page navigation, internationalization/translations, data entry and visualization, searching and filtering, database management, etc. Those fundamental supports are now being provided by software development frameworks. Usually, a framework is bigger than the core application itself. A framework will free developers from time consuming fundamental development, and will let them focus on developing the application true purposes. 
 
 Harubi Front intents to fullfill fundamental supports of new web application developments. Harubi Front development itself is on going. Any contribution is welcome.
