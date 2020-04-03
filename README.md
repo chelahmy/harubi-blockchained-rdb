@@ -1,7 +1,7 @@
 # Harubi Blockchained Relational Database Framework
 A blockchained relational database (BRDB) is an immutable relational database. A BRDB framework applies a blockchain methodology on any relational database to make it immutable. This Harubi BRDB framework is based on [Harubi](https://github.com/chelahmy/harubi) and [Harubi Front](https://github.com/chelahmy/harubi-front) frameworks.
 
-The BRDB methodology and framework were originally designed by [Abdullah Daud](https://github.com/chelahmy) who was also the designer of Harubi and Harubi Front. He was amused with the Bitcoin blockchain which employs hashing to its fullest advantage. BRDB is taking blockchain away from cryptocurrency, and to a greener field.
+The BRDB methodology and framework were originally designed by [Abdullah Daud](https://github.com/chelahmy) who was also the designer of Harubi and Harubi Front. He was amused with the Bitcoin blockchain which employs hashing to its fullest advantage. With BRDB, Abdullah wanted to take blockchain away from cryptocurrency, and to a greener field.
 
 **This is A Work-In-Progress**
 
