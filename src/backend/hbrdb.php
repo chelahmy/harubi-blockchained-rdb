@@ -168,7 +168,7 @@ function generate_tables($filename = "hbrdb.json") {
     add_statuscols($clist);
     add_signcols($clist);
     $str .= create_table_str($tname, clist_str($clist)) . PHP_EOL;
-    $klist = [["primary", "id", "id"]];
+    $klist = [["primary", "id", "id"], ["key", $tname . "_rev_id", $tname . "_rev_id"]];
     foreach ($table["keys"] as $kname => $key) {
       $klist[] = array_merge($key, [$kname]);
     }
@@ -176,7 +176,7 @@ function generate_tables($filename = "hbrdb.json") {
     $str .= add_keys_str($tname, $klist) . PHP_EOL;
     $str .= add_autoinc_str($tname) . PHP_EOL;
     // revision table
-    $clist = [idcol("id"), idcol("prev_id"), idcol($tname . "_id")];
+    $clist = [idcol("id"), idcol("prev_id")];
     foreach ($table["columns"] as $cname => $column) {
       $clist[] = array_merge(["name" => $cname], $column);
     }
@@ -196,6 +196,71 @@ function generate_tables($filename = "hbrdb.json") {
   return $str;
 }
 
+function generate_creation_rev($tname, $table) {
+  $args = "";
+  foreach ($table["columns"] as $cname => $column) {
+  	$args .= "\$$cname, ";
+  }
+  $args .= PHP_EOL . "  \$oper, \$timestamp, \$user_rev_id, \$signature";
+  $tn = $tname . "_rev";
+  $str = "function brdb_create_$tn($args) {" . PHP_EOL;
+  $str .= "  \$id = create('$tn', array(" . PHP_EOL;
+  $str .= "    'prev_id' => 0," . PHP_EOL;
+  foreach ($table["columns"] as $cname => $column) {
+    $str .= "    '$cname' => \$$cname," . PHP_EOL;
+  }
+  $str .= "    'oper' => \$oper," . PHP_EOL;
+  $str .= "    'timestamp' => \$timestamp," . PHP_EOL;
+  $str .= "    'user_rev_id' => \$user_rev_id," . PHP_EOL;
+  $str .= "    'signature' => \$signature" . PHP_EOL;
+  $str .= "  ));" . PHP_EOL;
+  $str .= "  return \$id;" . PHP_EOL;
+  $str .= "}" . PHP_EOL;
+  return $str;
+}
+
+function generate_creation($tname, $table) {
+  $args = "";
+  foreach ($table["columns"] as $cname => $column) {
+  	$args .= "\$$cname, ";
+  }
+  $args .= PHP_EOL . "  \$oper, \$timestamp, \$user_rev_id, \$signature";
+  $str = generate_creation_rev($tname, $table) . PHP_EOL;
+  $str .= "function brdb_create_$tname($args) {" . PHP_EOL;
+  $t_rev =  $tname . "_rev";
+  $t_rev_id = $tname . "_rev_id";
+  $str .= "  \$$t_rev_id = brdb_create_$t_rev($args);" . PHP_EOL;
+  $str .= "  if (\$$t_rev_id <= 0) return 0;" . PHP_EOL;
+  $str .= "  \$id = create('$tname', array(" . PHP_EOL;
+  $str .= "    '$t_rev_id' => \$$t_rev_id," . PHP_EOL;
+  foreach ($table["columns"] as $cname => $column) {
+    $str .= "    '$cname' => \$$cname," . PHP_EOL;
+  }
+  $str .= "    'oper' => \$oper," . PHP_EOL;
+  $str .= "    'timestamp' => \$timestamp," . PHP_EOL;
+  $str .= "    'user_rev_id' => \$user_rev_id," . PHP_EOL;
+  $str .= "    'signature' => \$signature" . PHP_EOL;
+  $str .= "  ));" . PHP_EOL;
+  $str .= "  if (\$id <= 0) {" . PHP_EOL;
+  $str .= "    delete('$t_rev', equ('id', \$$t_rev_id));" . PHP_EOL;
+  $str .= "    return 0;" . PHP_EOL;
+  $str .= "  }" . PHP_EOL;
+  $str .= "  return \$id;" . PHP_EOL;
+  $str .= "}" . PHP_EOL;
+  return $str;
+}
+
+function generate_crud($filename = "hbrdb.json") {
+  $str = "";
+  $fd = file_get_contents($filename);
+  $dt = json_decode($fd, TRUE);
+  foreach ($dt["tables"] as $tname => $table) {
+  	$str .= generate_creation($tname, $table);
+  }
+  return $str;
+}
+
 echo generate_tables();
+echo generate_crud();
 
 ?>
