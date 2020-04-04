@@ -14,7 +14,7 @@
           "type" : "varchar",
           "size" : 80
         },
-        "seed" : {
+        "vault" : {
           "type" : "varchar",
           "size" : 255
         },
