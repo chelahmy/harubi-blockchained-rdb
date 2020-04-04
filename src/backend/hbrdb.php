@@ -69,13 +69,13 @@ function idcol($name) {
   return ["name" => $name, "type" => "bigint", "size" => 20];
 }
 
-function add_statuscols(&$clist) {
-  $clist[] = ["name" => "status", "type" => "int", "size" => 11];
+function add_opercols(&$clist) {
+  $clist[] = ["name" => "oper", "type" => "int", "size" => 11];
   return $clist;
 }
 
-function add_statuskey(&$keys) {
-  $keys[] = ["key", "status", "status"];
+function add_operkey(&$keys) {
+  $keys[] = ["key", "oper", "oper"];
   return $keys;
 }
 
@@ -165,14 +165,14 @@ function generate_tables($filename = "hbrdb.json") {
     foreach ($table["columns"] as $cname => $column) {
       $clist[] = array_merge(["name" => $cname], $column);
     }
-    add_statuscols($clist);
+    add_opercols($clist);
     add_signcols($clist);
     $str .= create_table_str($tname, clist_str($clist)) . PHP_EOL;
     $klist = [["primary", "id", "id"], ["key", $tname . "_rev_id", $tname . "_rev_id"]];
     foreach ($table["keys"] as $kname => $key) {
       $klist[] = array_merge($key, [$kname]);
     }
-    add_statuskey($klist);
+    add_operkey($klist);
     $str .= add_keys_str($tname, $klist) . PHP_EOL;
     $str .= add_autoinc_str($tname) . PHP_EOL;
     // revision table
@@ -180,7 +180,7 @@ function generate_tables($filename = "hbrdb.json") {
     foreach ($table["columns"] as $cname => $column) {
       $clist[] = array_merge(["name" => $cname], $column);
     }
-    add_statuscols($clist);
+    add_opercols($clist);
     add_signcols($clist);
     $tname_rev = $tname . "_rev";
     $str .= create_table_str($tname_rev, clist_str($clist)) . PHP_EOL;
@@ -230,7 +230,7 @@ function generate_creation($tname, $table) {
   $t_rev =  $tname . "_rev";
   $t_rev_id = $tname . "_rev_id";
   $str .= "  \$$t_rev_id = brdb_create_$t_rev($args);" . PHP_EOL;
-  $str .= "  if (\$$t_rev_id <= 0) return 0;" . PHP_EOL;
+  $str .= "  if (\$$t_rev_id <= 0) return -1;" . PHP_EOL;
   $str .= "  \$id = create('$tname', array(" . PHP_EOL;
   $str .= "    '$t_rev_id' => \$$t_rev_id," . PHP_EOL;
   foreach ($table["columns"] as $cname => $column) {
@@ -243,7 +243,7 @@ function generate_creation($tname, $table) {
   $str .= "  ));" . PHP_EOL;
   $str .= "  if (\$id <= 0) {" . PHP_EOL;
   $str .= "    delete('$t_rev', equ('id', \$$t_rev_id));" . PHP_EOL;
-  $str .= "    return 0;" . PHP_EOL;
+  $str .= "    return -2;" . PHP_EOL;
   $str .= "  }" . PHP_EOL;
   $str .= "  return \$id;" . PHP_EOL;
   $str .= "}" . PHP_EOL;
