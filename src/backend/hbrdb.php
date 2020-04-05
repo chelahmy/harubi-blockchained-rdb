@@ -102,7 +102,7 @@ function create_timestamp_table_str() {
 function create_table_table_str() {
   $clist = [idcol("id")];
   $clist[] = ["name" => "name", "type" => "varchar", "size" => 255];
-  add_signcols($clist);
+  //add_signcols($clist);
   $tname = "table";
   $str = create_table_str($tname, clist_str($clist)) . PHP_EOL;
   $klist = [["primary", "id", "id"]];
@@ -244,6 +244,12 @@ function generate_creation($tname, $table) {
   $str .= "  if (\$id <= 0) {" . PHP_EOL;
   $str .= "    delete('$t_rev', equ('id', \$$t_rev_id));" . PHP_EOL;
   $str .= "    return -2;" . PHP_EOL;
+  $str .= "  }" . PHP_EOL;
+  $str .= "  \$act_id = brdb_create_activity('$tname', \$id, \$$t_rev_id);" . PHP_EOL;
+  $str .= "  if (\$act_id <= 0) {" . PHP_EOL;
+  $str .= "    delete('$t_rev', equ('id', \$$t_rev_id));" . PHP_EOL;
+  $str .= "    delete('$tname', equ('id', \$id));" . PHP_EOL;
+  $str .= "    return -3;" . PHP_EOL;
   $str .= "  }" . PHP_EOL;
   $str .= "  return \$id;" . PHP_EOL;
   $str .= "}" . PHP_EOL;
