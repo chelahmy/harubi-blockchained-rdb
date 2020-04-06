@@ -155,6 +155,14 @@ function create_block_table_str() {
   return $str;
 }
 
+function generate_basic_tables() {
+  $str = create_table_table_str();
+  $str .= create_request_table_str();
+  $str .= create_activity_table_str();
+  $str .= create_block_table_str();
+  return $str;
+}
+
 function generate_tables($filename = "hbrdb.json") {
   $str = "";
   $fd = file_get_contents($filename);
@@ -188,11 +196,6 @@ function generate_tables($filename = "hbrdb.json") {
     $str .= add_keys_str($tname_rev, $klist) . PHP_EOL;
     $str .= add_autoinc_str($tname_rev) . PHP_EOL;
   }
-  //$str .= create_timestamp_table_str();
-  $str .= create_table_table_str();
-  $str .= create_request_table_str();
-  $str .= create_activity_table_str();
-  $str .= create_block_table_str();
   return $str;
 }
 
@@ -266,6 +269,7 @@ function generate_crud($filename = "hbrdb.json") {
   return $str;
 }
 
+echo generate_basic_tables();
 echo generate_tables();
 echo generate_crud();
 
