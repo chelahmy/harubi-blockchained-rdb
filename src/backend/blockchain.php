@@ -44,12 +44,8 @@ function brdb_read_activity($id) {
 
 	if (count($records) <= 0)
 		return FALSE;
-		
-	return [
-		'table_id' => $records[0]['table_id'],
-		'row_id' => $records[0]['row_id'],
-		'row_rev_id' => $records[0]['row_rev_id']
-	];	
+
+	return $records[0];
 }
 
 function brdb_read_last_activity() {
@@ -58,12 +54,7 @@ function brdb_read_last_activity() {
 	if (count($records) <= 0)
 		return FALSE;
 		
-	return [
-		'id' =>  $records[0]['id'],
-		'table_id' => $records[0]['table_id'],
-		'row_id' => $records[0]['row_id'],
-		'row_rev_id' => $records[0]['row_rev_id']
-	];	
+	return $records[0];
 }
 
 function brdb_create_request($user_id, $table_name, $row_id, $row_rev_id, 
@@ -95,6 +86,16 @@ function brdb_create_request($user_id, $table_name, $row_id, $row_rev_id,
 	return $id;
 }
 
+function brdb_read_request($id) {
+	$where = equ('id', $id);
+	$records = read(['table' => 'request', 'where' => $where]);
+
+	if (count($records) <= 0)
+		return FALSE;
+		
+	return $records[0];
+}
+
 function brdb_create_block($activity_start_id, $activity_end_id, $activity_final_hash, $timestamp, $nonce, $hash) {
 	return create('block', array(
 		'activity_start_id' => $activity_start_id,
@@ -104,6 +105,25 @@ function brdb_create_block($activity_start_id, $activity_end_id, $activity_final
 		'nonce' => $nonce,
 		'hash' => $hash
 	));
+}
+
+function brdb_read_block($id) {
+	$where = equ('id', $id);
+	$records = read(['table' => 'block', 'where' => $where]);
+
+	if (count($records) <= 0)
+		return FALSE;
+		
+	return $records[0];
+}
+
+function brdb_read_last_block($id) {
+	$records = read(['table' => 'block', 'order_by' => 'id', 'sort' => 'DESC', 'limit' => 1]);
+
+	if (count($records) <= 0)
+		return FALSE;
+		
+	return $records[0];
 }
 
 ?>
