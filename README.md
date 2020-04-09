@@ -1,9 +1,9 @@
 # Harubi Blockchained Relational Database Framework
 A blockchained relational database (BRDB) is an immutable relational database. Immutability is a deterrence for mal-activity. A BRDB framework is a foundation for making any relational database immutable by hashing all activities on the database into a proof-of-work (PoW) blockchain. A PoW is an expensive hashing technique which makes any data that the hash is representing immutable. Any changes to the data will always require the expensive rehashing. So expensive as a deterrence to any mal-activity. A hash is a valid representation of the data it hashes because a sophisticated hash is always unique. A data may contain a hash of another data, and so on. Hence, a hash may represent a complex hashing structure of a large data set. A blockchain is a list of inclusive PoW. An inclusive hash is a hash of a data that includes a hash of a previous data in the list, and so on. Altering a data in the list will require rehashing the data and next data one after the other, and so on. An inclusive PoW is very immutable. Hence, everything a PoW blockchain represents is very immutable. All these concise description will be known as the BRDB methodology.
 
-This Harubi BRDB framework extends [Harubi](https://github.com/chelahmy/harubi) and [Harubi Front](https://github.com/chelahmy/harubi-front) with the blockchain methodology.
+This Harubi BRDB framework extends [Harubi](https://github.com/chelahmy/harubi) and [Harubi Front](https://github.com/chelahmy/harubi-front) with the BRDB methodology.
 
-The BRDB methodology and framework were originally designed by [Abdullah Daud](https://github.com/chelahmy) who was also the designer of Harubi and Harubi Front. He was amazed with the Bitcoin blockchain which employs hashing to its fullest advantage. With BRDB, he wanted to take blockchain away from cryptocurrency, and to a greener field.
+The BRDB methodology and framework were originally designed by [Abdullah Daud](https://github.com/chelahmy) who was also the designer of Harubi and Harubi Front. He was amazed with the Bitcoin blockchain which employs hashing to its fullest advantage. With BRDB, he wanted to take blockchain away from cryptocurrency, and to a less controversial field.
 
 **This is A Work-In-Progress**
 
