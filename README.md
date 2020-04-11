@@ -1,7 +1,7 @@
 # Harubi Blockchained Relational Database Framework
 This Harubi Blockchained Relational Database (BRDB) Framework extends [Harubi](https://github.com/chelahmy/harubi) and [Harubi Front](https://github.com/chelahmy/harubi-front) with BRDB methodology.
 
-The BRDB methodology and framework were originally designed by [Abdullah Daud](https://github.com/chelahmy) who was also the designer of Harubi and Harubi Front. He was hit by the Bitcoin blockchain which employs hashing to its fullest advantage. With BRDB, he wanted to take blockchain away from the controversial cryptocurrency field to a more practical field of secured database systems. He wrote [The Essence of Blockchain](https://chelahmy.blogspot.com/2020/03/the-essence-of-blockchain.html),[Everything has a Signature](https://chelahmy.blogspot.com/2020/03/everything-has-signature.html), and [The Eternal Wall of Grafittis](https://chelahmy.blogspot.com/2020/02/the-eternal-wall-of-grafittis.html).
+The BRDB methodology and framework were originally designed by [Abdullah Daud](https://github.com/chelahmy) who was also the designer of Harubi and Harubi Front. He was hit by the Bitcoin blockchain which employs hashing to its fullest advantage. With BRDB, he wanted to take blockchain away from the controversial cryptocurrency field to a more practical field of secured database systems. He wrote [The Essence of Blockchain](https://chelahmy.blogspot.com/2020/03/the-essence-of-blockchain.html), [Everything has a Signature](https://chelahmy.blogspot.com/2020/03/everything-has-signature.html), and [The Eternal Wall of Grafittis](https://chelahmy.blogspot.com/2020/02/the-eternal-wall-of-grafittis.html).
 
 ## What is Blockchained Relational Database?
 
