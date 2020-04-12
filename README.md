@@ -11,9 +11,9 @@ A blockchained relational database (BRDB) is an immutable relational database. I
 
 **Relational database is not secured.** A relational database has no security feature. A relational database system such as MySQL may implement access control but once a person has access to a database he has a control of the database. He can manipulate the database. If an impersonator has access to a database he can exert damage on to the database without a trace. A blockchain can help in detecting mal-activity. The compromised account can be identified.
 
-**Trusting database and system administrators.** A team you trust may have its own agenda. Mal-activity on a database can be covered up. The team may bring your business down. Instead of trusting your team you should trust a blockchain. A database can easily be audited if it has a blockchain. A blockchain watchdog can trigger an alarm when a mal-activity took place. A blockchain can give you a peace of mind.
+**Trusting database and system administrators.** A team you trust may have its own agenda. Mal-activity on a database can be covered up. The team may bring your business down. Instead of trusting your team you should trust a blockchain. A database can easily be audited if it has a blockchain. A blockchain watchdog can trigger an alarm when a mal-activity took place. A blockchain can give you a peace of mind. CEOs and CTOs must take notes so that not to be a part of a suspicious team.
 
-**Improving business valuation.** A database with high confidentiality and integrity is an important business foundation. Business owners must enforce a blockchain into every database since it reflects the businesses confidentiality and integrity. CEOs and CTOs must take notes so that not to be a part of a suspicious team. 
+**Improving business valuation.** A database with high confidentiality and integrity is an important business foundation. Business owners must enforce a blockchain into every database since it reflects the businesses confidentiality and integrity. 
 
 **This is A Work-In-Progress**
 
