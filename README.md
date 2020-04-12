@@ -13,7 +13,7 @@ A blockchained relational database (BRDB) is an immutable relational database. I
 
 **Trusting database and system administrators.** A team you trust may have its own agenda. Mal-activity on a database can be covered up. The team may bring your business down. Instead of trusting your team you should trust a blockchain. A database can easily be audited if it has a blockchain. A blockchain watchdog can trigger an alarm when a mal-activity took place. A blockchain can give you a peace of mind.
 
-**Improving business valuation.** A database with high confidentiality and integrity is an important business foundation. Business owners must enforce a blockchain in every database since it reflects the businesses confidentiality and integrity.
+**Improving business valuation.** A database with high confidentiality and integrity is an important business foundation. Business owners must enforce a blockchain into every database since it reflects the businesses confidentiality and integrity.
 
 **This is A Work-In-Progress**
 
