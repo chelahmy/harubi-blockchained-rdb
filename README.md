@@ -9,6 +9,8 @@ A blockchained relational database (BRDB) is an immutable relational database. I
 ## Why do we need BRDB?
 **Blockchain makes Bitcoin secured.** Since its inception in 2009 Bitcoin remains immutable even though it is an open database with no central control. The Bitcoin blockchain keeps the database immutable. The Bitcoin database keeps all token spending contracts which explicitly declares all token ownerships. If a blockchain can make the Bitcoin open financial database immutable then it can make any database immutable. There is no standard in making a database immutable. Blockchain can be the standard. immutability is a feature to make a database secured.
 
+**Relational database is not secured.** A relational database has no security feature. A relational database system such as MySQL may implement access control but once anybody has access to a database he has full control of the data.
+
 **This is A Work-In-Progress**
 
 The following text was copied from Harubi Front. It will be replaced soon.
