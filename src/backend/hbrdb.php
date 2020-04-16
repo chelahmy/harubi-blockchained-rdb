@@ -199,7 +199,7 @@ function generate_tables($filename = "hbrdb.json") {
   return $str;
 }
 
-function generate_creation_rev($tname, $table) {
+function generate_creating_rev($tname, $table) {
   $args = "";
   foreach ($table["columns"] as $cname => $column) {
   	$args .= "\$$cname, ";
@@ -222,13 +222,13 @@ function generate_creation_rev($tname, $table) {
   return $str;
 }
 
-function generate_creation($tname, $table) {
+function generate_creating($tname, $table) {
   $args = "";
   foreach ($table["columns"] as $cname => $column) {
   	$args .= "\$$cname, ";
   }
   $args .= PHP_EOL . "  \$oper, \$timestamp, \$user_rev_id, \$signature";
-  $str = generate_creation_rev($tname, $table) . PHP_EOL;
+  $str = generate_creating_rev($tname, $table) . PHP_EOL;
   $str .= "function brdb_create_$tname($args) {" . PHP_EOL;
   $t_rev =  $tname . "_rev";
   $t_rev_id = $tname . "_rev_id";
@@ -264,7 +264,7 @@ function generate_crud($filename = "hbrdb.json") {
   $fd = file_get_contents($filename);
   $dt = json_decode($fd, TRUE);
   foreach ($dt["tables"] as $tname => $table) {
-  	$str .= generate_creation($tname, $table);
+  	$str .= generate_creating($tname, $table);
   }
   return $str;
 }
