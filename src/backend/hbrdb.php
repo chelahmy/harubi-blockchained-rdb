@@ -267,6 +267,8 @@ function generate_reading($tname, $table) {
   $str .= "  \$records = read(['table' => '$tname', 'where' => \$where]);" . PHP_EOL;
   $str .= "  if (count(\$records) <= 0)" . PHP_EOL;
   $str .= "    return FALSE;" . PHP_EOL;
+  $str .= "  if (\$records[0]['oper'] <= 0) // record deleted" . PHP_EOL;
+  $str .= "    return FALSE;" . PHP_EOL;
   $str .= "  return \$records[0];" . PHP_EOL;
   $str .= "}" . PHP_EOL;
   return $str;
@@ -277,6 +279,8 @@ function generate_reading_by_name($tname, $table) {
   $str .= "  \$where = equ('name', \$name, 'string');" . PHP_EOL;
   $str .= "  \$records = read(['table' => '$tname', 'where' => \$where]);" . PHP_EOL;
   $str .= "  if (count(\$records) <= 0)" . PHP_EOL;
+  $str .= "    return FALSE;" . PHP_EOL;
+  $str .= "  if (\$records[0]['oper'] <= 0) // record deleted" . PHP_EOL;
   $str .= "    return FALSE;" . PHP_EOL;
   $str .= "  return \$records[0];" . PHP_EOL;
   $str .= "}" . PHP_EOL;
