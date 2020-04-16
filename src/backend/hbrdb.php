@@ -204,7 +204,7 @@ function generate_creating_rev($tname, $table) {
   foreach ($table["columns"] as $cname => $column) {
   	$args .= "\$$cname, ";
   }
-  $args .= PHP_EOL . "  \$oper, \$timestamp, \$user_rev_id, \$signature";
+  $args .= PHP_EOL . "  \$user_id, \$oper, \$timestamp, \$user_rev_id, \$signature";
   $tn = $tname . "_rev";
   $str = "function brdb_create_$tn($args) {" . PHP_EOL;
   $str .= "  \$id = create('$tn', array(" . PHP_EOL;
@@ -212,6 +212,7 @@ function generate_creating_rev($tname, $table) {
   foreach ($table["columns"] as $cname => $column) {
     $str .= "    '$cname' => \$$cname," . PHP_EOL;
   }
+  $str .= "    'user_id' => \$user_id," . PHP_EOL;
   $str .= "    'oper' => \$oper," . PHP_EOL;
   $str .= "    'timestamp' => \$timestamp," . PHP_EOL;
   $str .= "    'user_rev_id' => \$user_rev_id," . PHP_EOL;
@@ -227,7 +228,7 @@ function generate_creating($tname, $table) {
   foreach ($table["columns"] as $cname => $column) {
   	$args .= "\$$cname, ";
   }
-  $args .= PHP_EOL . "  \$oper, \$timestamp, \$user_rev_id, \$signature";
+  $args .= PHP_EOL . "  \$user_id, \$oper, \$timestamp, \$user_rev_id, \$signature";
   $str = generate_creating_rev($tname, $table) . PHP_EOL;
   $str .= "function brdb_create_$tname($args) {" . PHP_EOL;
   $t_rev =  $tname . "_rev";
@@ -239,6 +240,7 @@ function generate_creating($tname, $table) {
   foreach ($table["columns"] as $cname => $column) {
     $str .= "    '$cname' => \$$cname," . PHP_EOL;
   }
+  $str .= "    'user_id' => \$user_id," . PHP_EOL;
   $str .= "    'oper' => \$oper," . PHP_EOL;
   $str .= "    'timestamp' => \$timestamp," . PHP_EOL;
   $str .= "    'user_rev_id' => \$user_rev_id," . PHP_EOL;
@@ -259,12 +261,55 @@ function generate_creating($tname, $table) {
   return $str;
 }
 
+function generate_reading($tname, $table) {
+  $str = "function brdb_read_$tname(\$id) {" . PHP_EOL;
+  $str .= "  \$where = equ('id', \$id);" . PHP_EOL;
+  $str .= "  \$records = read(['table' => '$tname', 'where' => \$where]);" . PHP_EOL;
+  $str .= "  if (count(\$records) <= 0)" . PHP_EOL;
+  $str .= "    return FALSE;" . PHP_EOL;
+  $str .= "  return \$records[0];" . PHP_EOL;
+  $str .= "}" . PHP_EOL;
+  return $str;
+}
+
+function generate_reading_by_name($tname, $table) {
+  $str = "function brdb_read_$tname" . "_by_name(\$name) {" . PHP_EOL;
+  $str .= "  \$where = equ('name', \$name, 'string');" . PHP_EOL;
+  $str .= "  \$records = read(['table' => '$tname', 'where' => \$where]);" . PHP_EOL;
+  $str .= "  if (count(\$records) <= 0)" . PHP_EOL;
+  $str .= "    return FALSE;" . PHP_EOL;
+  $str .= "  return \$records[0];" . PHP_EOL;
+  $str .= "}" . PHP_EOL;
+  return $str;
+}
+
+function generate_request($tname, $table) {
+  $args = "\$record,";
+  $s_args = PHP_EOL . "  \$user_id, \$timestamp, \$user_rev_id, \$signature";
+  $str = "function brdb_request_$tname($args $s_args) {" . PHP_EOL;
+  $rev_id = $tname . '_rev_id';
+  $str .= "  \$req_id = brdb_create_request('$tname', \$record['id'], \$record['$rev_id'], $s_args);" . PHP_EOL;
+  $str .= "  if (\$req_id <= 0) return -1;" . PHP_EOL;
+  $str .= "  \$act_id = brdb_create_activity('request', \$req_id, 0);" . PHP_EOL;
+  $str .= "  if (\$act_id <= 0) {" . PHP_EOL;
+  $str .= "    delete('request', equ('id', \$req_id));" . PHP_EOL;
+  $str .= "    return -2;" . PHP_EOL;
+  $str .= "  }" . PHP_EOL;
+  $str .= "  return \$req_id;" . PHP_EOL;
+  $str .= "}" . PHP_EOL;
+  return $str;
+}
+
 function generate_crud($filename = "hbrdb.json") {
   $str = "";
   $fd = file_get_contents($filename);
   $dt = json_decode($fd, TRUE);
   foreach ($dt["tables"] as $tname => $table) {
-  	$str .= generate_creating($tname, $table);
+  	$str .= generate_creating($tname, $table) . PHP_EOL;
+  	$str .= generate_reading($tname, $table) . PHP_EOL;
+  	if (array_key_exists('name', $table["columns"]))
+  	  $str .= generate_reading_by_name($tname, $table) . PHP_EOL;
+  	$str .= generate_request($tname, $table) . PHP_EOL;
   }
   return $str;
 }
