@@ -204,7 +204,7 @@ function generate_creating_rev($tname, $table) {
   foreach ($table["columns"] as $cname => $column) {
   	$args .= "\$$cname, ";
   }
-  $args .= PHP_EOL . "  \$user_id, \$oper, \$timestamp, \$user_rev_id, \$signature";
+  $args .= PHP_EOL . "  \$user_id, \$timestamp, \$user_rev_id, \$signature";
   $tn = $tname . "_rev";
   $str = "function brdb_create_$tn($args) {" . PHP_EOL;
   $str .= "  \$id = create('$tn', array(" . PHP_EOL;
@@ -213,7 +213,7 @@ function generate_creating_rev($tname, $table) {
     $str .= "    '$cname' => \$$cname," . PHP_EOL;
   }
   $str .= "    'user_id' => \$user_id," . PHP_EOL;
-  $str .= "    'oper' => \$oper," . PHP_EOL;
+  $str .= "    'oper' => 1," . PHP_EOL;
   $str .= "    'timestamp' => \$timestamp," . PHP_EOL;
   $str .= "    'user_rev_id' => \$user_rev_id," . PHP_EOL;
   $str .= "    'signature' => \$signature" . PHP_EOL;
@@ -228,7 +228,7 @@ function generate_creating($tname, $table) {
   foreach ($table["columns"] as $cname => $column) {
   	$args .= "\$$cname, ";
   }
-  $args .= PHP_EOL . "  \$user_id, \$oper, \$timestamp, \$user_rev_id, \$signature";
+  $args .= PHP_EOL . "  \$user_id, \$timestamp, \$user_rev_id, \$signature";
   $str = generate_creating_rev($tname, $table) . PHP_EOL;
   $str .= "function brdb_create_$tname($args) {" . PHP_EOL;
   $t_rev =  $tname . "_rev";
@@ -241,7 +241,7 @@ function generate_creating($tname, $table) {
     $str .= "    '$cname' => \$$cname," . PHP_EOL;
   }
   $str .= "    'user_id' => \$user_id," . PHP_EOL;
-  $str .= "    'oper' => \$oper," . PHP_EOL;
+  $str .= "    'oper' => 1," . PHP_EOL;
   $str .= "    'timestamp' => \$timestamp," . PHP_EOL;
   $str .= "    'user_rev_id' => \$user_rev_id," . PHP_EOL;
   $str .= "    'signature' => \$signature" . PHP_EOL;
