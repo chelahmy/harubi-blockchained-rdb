@@ -57,18 +57,18 @@ function brdb_read_last_activity() {
 	return $records[0];
 }
 
-function brdb_create_request($user_id, $table_name, $row_id, $row_rev_id, 
-	$timestamp, $user_rev_id, $signature) {
+function brdb_create_request($table_name, $row_id, $row_rev_id, 
+	$user_id, $timestamp, $user_rev_id, $signature) {
 
 	$table_id = brdb_get_table_id($table_name);
 	
 	if ($table_id <= 0) return -1;
 		
 	$id = create('request', array(
-		'user_id' => $user_id,
 		'table_id' => $table_id,
 		'row_id' => $row_id,
 		'row_rev_id' => $row_rev_id,
+		'user_id' => $user_id,
 		'timestamp' => $timestamp,
 		'user_rev_id' => $user_rev_id,
 		'signature' => $signature
