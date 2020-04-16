@@ -12,10 +12,10 @@ ALTER TABLE `table`
 
 CREATE TABLE `request` (
   `id` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
   `table_id` bigint(20) NOT NULL,
   `row_id` bigint(20) NOT NULL,
   `row_rev_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
   `timestamp` datetime NOT NULL,
   `user_rev_id` bigint(20) NOT NULL,
   `signature` varchar(255) NOT NULL
@@ -23,9 +23,9 @@ CREATE TABLE `request` (
 
 ALTER TABLE `request`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
   ADD KEY `table_id` (`table_id`),
   ADD KEY `table_row_id` (`table_id`, `table_row_id`),
+  ADD KEY `user_id` (`user_id`),
   ADD KEY `user_table_id` (`user_id`, `table_id`),
   ADD KEY `user_table_row_id` (`user_id`, `table_id`, `table_row_id`);
 
