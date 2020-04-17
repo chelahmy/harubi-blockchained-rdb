@@ -196,7 +196,7 @@ function generate_tables($filename = "hbrdb.json") {
 }
 
 function generate_creating_rev($tname, $table) {
-  $args = "\$fields, \$user_id, \$timestamp, \$user_rev_id, \$signature";
+  $args = "\$fields, \$timestamp, \$user_id, \$user_rev_id, \$signature";
   $tn = $tname . "_rev";
   $str = "function brdb_create_$tn($args) {" . PHP_EOL;
   $str .= "  \$cflds = ['prev_id' => 0];" . PHP_EOL;
@@ -216,7 +216,7 @@ function generate_creating_rev($tname, $table) {
 }
 
 function generate_creating($tname, $table) {
-  $args = "\$fields, \$user_id, \$timestamp, \$user_rev_id, \$signature";
+  $args = "\$fields, \$timestamp, \$user_id, \$user_rev_id, \$signature";
   $str = generate_creating_rev($tname, $table) . PHP_EOL;
   $str .= "function brdb_create_$tname($args) {" . PHP_EOL;
   $t_rev =  $tname . "_rev";
@@ -277,10 +277,10 @@ function generate_reading_by_name($tname, $table) {
 
 function generate_request($tname, $table) {
   $args = "\$record,";
-  $s_args = PHP_EOL . "  \$user_id, \$timestamp, \$user_rev_id, \$signature";
+  $s_args = "\$timestamp, \$user_id, \$user_rev_id, \$signature";
   $str = "function brdb_request_$tname($args $s_args) {" . PHP_EOL;
-  $rev_id = $tname . '_rev_id';
-  $str .= "  \$req_id = brdb_create_request('$tname', \$record['id'], \$record['$rev_id'], $s_args);" . PHP_EOL;
+  $s_args = PHP_EOL . "  " . $s_args; 
+  $str .= "  \$req_id = brdb_create_request('$tname', \$record['id'], \$record['rev_id'], $s_args);" . PHP_EOL;
   $str .= "  if (\$req_id <= 0) return -1;" . PHP_EOL;
   $str .= "  \$act_id = brdb_create_activity('request', \$req_id, 0);" . PHP_EOL;
   $str .= "  if (\$act_id <= 0) {" . PHP_EOL;

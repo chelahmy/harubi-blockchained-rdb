@@ -58,7 +58,7 @@ function brdb_read_last_activity() {
 }
 
 function brdb_create_request($table_name, $row_id, $row_rev_id, 
-	$user_id, $timestamp, $user_rev_id, $signature) {
+	$timestamp, $user_id, $user_rev_id, $signature) {
 
 	$table_id = brdb_get_table_id($table_name);
 	
@@ -68,8 +68,8 @@ function brdb_create_request($table_name, $row_id, $row_rev_id,
 		'table_id' => $table_id,
 		'row_id' => $row_id,
 		'row_rev_id' => $row_rev_id,
-		'user_id' => $user_id,
 		'timestamp' => $timestamp,
+		'user_id' => $user_id,
 		'user_rev_id' => $user_rev_id,
 		'signature' => $signature
 	));
