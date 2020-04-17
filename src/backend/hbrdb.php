@@ -81,28 +81,21 @@ function add_operkey(&$keys) {
 
 function add_signcols(&$clist) {
   $clist[] = ["name" => "timestamp", "type" => "datetime"];
+  $clist[] = idcol("user_id");
   $clist[] = idcol("user_rev_id");
   $clist[] = ["name" => "signature", "type" => "varchar", "size" => 255];
   return $clist;
 }
 
-function create_timestamp_table_str() {
-  $clist = [idcol("id")];
-  $clist[] = ["name" => "timestamp", "type" => "datetime"];
-  add_signcols($clist);
-  $tname = "timestamp";
-  $str = create_table_str($tname, clist_str($clist)) . PHP_EOL;
-  $klist = [["primary", "id", "id"]];
-  $klist[] = ["key", "timestamp", "timestamp"];
-  $str .= add_keys_str($tname, $klist) . PHP_EOL;
-  $str .= add_autoinc_str($tname) . PHP_EOL;
-  return $str;
+function add_signkeys(&$keys) {
+  $keys[] = ["key", "user_id", "user_id"];
+  $keys[] = ["key", ["user_id", "id"], "user_row_id"];
+  return $keys;
 }
 
 function create_table_table_str() {
   $clist = [idcol("id")];
   $clist[] = ["name" => "name", "type" => "varchar", "size" => 255];
-  //add_signcols($clist);
   $tname = "table";
   $str = create_table_str($tname, clist_str($clist)) . PHP_EOL;
   $klist = [["primary", "id", "id"]];
@@ -113,14 +106,14 @@ function create_table_table_str() {
 }
 
 function create_request_table_str() {
-  $clist = [idcol("id"), idcol("user_id"), idcol("table_id"), idcol("row_id"), idcol("row_rev_id")];
+  $clist = [idcol("id"), idcol("table_id"), idcol("row_id"), idcol("row_rev_id")];
   add_signcols($clist);
   $tname = "request";
   $str = create_table_str($tname, clist_str($clist)) . PHP_EOL;
   $klist = [["primary", "id", "id"]];
-  $klist[] = ["key", "user_id", "user_id"];
   $klist[] = ["key", "table_id", "table_id"];
   $klist[] = ["key", ["table_id", "table_row_id"], "table_row_id"];
+  $klist[] = ["key", "user_id", "user_id"];
   $klist[] = ["key", ["user_id", "table_id"], "user_table_id"];
   $klist[] = ["key", ["user_id", "table_id", "table_row_id"], "user_table_row_id"];
   $str .= add_keys_str($tname, $klist) . PHP_EOL;
@@ -169,18 +162,19 @@ function generate_tables($filename = "hbrdb.json") {
   $dt = json_decode($fd, TRUE);
   foreach ($dt["tables"] as $tname => $table) {
     // main table
-    $clist = [idcol("id"), idcol($tname . "_rev_id")];
+    $clist = [idcol("id"), idcol("rev_id")];
     foreach ($table["columns"] as $cname => $column) {
       $clist[] = array_merge(["name" => $cname], $column);
     }
     add_opercols($clist);
     add_signcols($clist);
     $str .= create_table_str($tname, clist_str($clist)) . PHP_EOL;
-    $klist = [["primary", "id", "id"], ["key", $tname . "_rev_id", $tname . "_rev_id"]];
+    $klist = [["primary", "id", "id"], ["key", "rev_id", "rev_id"]];
     foreach ($table["keys"] as $kname => $key) {
       $klist[] = array_merge($key, [$kname]);
     }
     add_operkey($klist);
+    add_signkeys($klist);
     $str .= add_keys_str($tname, $klist) . PHP_EOL;
     $str .= add_autoinc_str($tname) . PHP_EOL;
     // revision table
@@ -193,6 +187,8 @@ function generate_tables($filename = "hbrdb.json") {
     $tname_rev = $tname . "_rev";
     $str .= create_table_str($tname_rev, clist_str($clist)) . PHP_EOL;
     $klist = [["primary", "id", "id"]];
+    add_operkey($klist);
+    add_signkeys($klist);
     $str .= add_keys_str($tname_rev, $klist) . PHP_EOL;
     $str .= add_autoinc_str($tname_rev) . PHP_EOL;
   }
@@ -200,59 +196,51 @@ function generate_tables($filename = "hbrdb.json") {
 }
 
 function generate_creating_rev($tname, $table) {
-  $args = "";
-  foreach ($table["columns"] as $cname => $column) {
-  	$args .= "\$$cname, ";
-  }
-  $args .= PHP_EOL . "  \$user_id, \$timestamp, \$user_rev_id, \$signature";
+  $args = "\$fields, \$user_id, \$timestamp, \$user_rev_id, \$signature";
   $tn = $tname . "_rev";
   $str = "function brdb_create_$tn($args) {" . PHP_EOL;
-  $str .= "  \$id = create('$tn', array(" . PHP_EOL;
-  $str .= "    'prev_id' => 0," . PHP_EOL;
+  $str .= "  \$cflds = ['prev_id' => 0];" . PHP_EOL;
   foreach ($table["columns"] as $cname => $column) {
-    $str .= "    '$cname' => \$$cname," . PHP_EOL;
+    $str .= "  if (array_key_exists('$cname', \$fields))" . PHP_EOL;
+    $str .= "    \$cflds['$cname'] = \$fields['$cname'];" . PHP_EOL;
   }
-  $str .= "    'user_id' => \$user_id," . PHP_EOL;
-  $str .= "    'oper' => 1," . PHP_EOL;
-  $str .= "    'timestamp' => \$timestamp," . PHP_EOL;
-  $str .= "    'user_rev_id' => \$user_rev_id," . PHP_EOL;
-  $str .= "    'signature' => \$signature" . PHP_EOL;
-  $str .= "  ));" . PHP_EOL;
+  $str .= "  \$cflds['oper'] = 1;" . PHP_EOL;
+  $str .= "  \$cflds['timestamp'] = \$timestamp;" . PHP_EOL;
+  $str .= "  \$cflds['user_id'] = \$user_id;" . PHP_EOL;
+  $str .= "  \$cflds['user_rev_id'] = \$user_rev_id;" . PHP_EOL;
+  $str .= "  \$cflds['signature'] = \$signature;" . PHP_EOL;
+  $str .= "  \$id = create('$tname', \$cflds);" . PHP_EOL;
   $str .= "  return \$id;" . PHP_EOL;
   $str .= "}" . PHP_EOL;
   return $str;
 }
 
 function generate_creating($tname, $table) {
-  $args = "";
-  foreach ($table["columns"] as $cname => $column) {
-  	$args .= "\$$cname, ";
-  }
-  $args .= PHP_EOL . "  \$user_id, \$timestamp, \$user_rev_id, \$signature";
+  $args = "\$fields, \$user_id, \$timestamp, \$user_rev_id, \$signature";
   $str = generate_creating_rev($tname, $table) . PHP_EOL;
   $str .= "function brdb_create_$tname($args) {" . PHP_EOL;
   $t_rev =  $tname . "_rev";
   $t_rev_id = $tname . "_rev_id";
-  $str .= "  \$$t_rev_id = brdb_create_$t_rev($args);" . PHP_EOL;
-  $str .= "  if (\$$t_rev_id <= 0) return -1;" . PHP_EOL;
-  $str .= "  \$id = create('$tname', array(" . PHP_EOL;
-  $str .= "    '$t_rev_id' => \$$t_rev_id," . PHP_EOL;
+  $str .= "  \$rev_id = brdb_create_$t_rev($args);" . PHP_EOL;
+  $str .= "  if (\$rev_id <= 0) return -1;" . PHP_EOL;
+  $str .= "  \$cflds = ['rev_id' => \$rev_id];" . PHP_EOL;
   foreach ($table["columns"] as $cname => $column) {
-    $str .= "    '$cname' => \$$cname," . PHP_EOL;
+    $str .= "  if (array_key_exists('$cname', \$fields))" . PHP_EOL;
+    $str .= "    \$cflds['$cname'] = \$fields['$cname'];" . PHP_EOL;
   }
-  $str .= "    'user_id' => \$user_id," . PHP_EOL;
-  $str .= "    'oper' => 1," . PHP_EOL;
-  $str .= "    'timestamp' => \$timestamp," . PHP_EOL;
-  $str .= "    'user_rev_id' => \$user_rev_id," . PHP_EOL;
-  $str .= "    'signature' => \$signature" . PHP_EOL;
-  $str .= "  ));" . PHP_EOL;
+  $str .= "  \$cflds['oper'] = 1;" . PHP_EOL;
+  $str .= "  \$cflds['timestamp'] = \$timestamp;" . PHP_EOL;
+  $str .= "  \$cflds['user_id'] = \$user_id;" . PHP_EOL;
+  $str .= "  \$cflds['user_rev_id'] = \$user_rev_id;" . PHP_EOL;
+  $str .= "  \$cflds['signature'] = \$signature;" . PHP_EOL;
+  $str .= "  \$id = create('$tname', \$cflds);" . PHP_EOL;
   $str .= "  if (\$id <= 0) {" . PHP_EOL;
-  $str .= "    delete('$t_rev', equ('id', \$$t_rev_id));" . PHP_EOL;
+  $str .= "    delete('$t_rev', equ('id', \$rev_id));" . PHP_EOL;
   $str .= "    return -2;" . PHP_EOL;
   $str .= "  }" . PHP_EOL;
-  $str .= "  \$act_id = brdb_create_activity('$tname', \$id, \$$t_rev_id);" . PHP_EOL;
+  $str .= "  \$act_id = brdb_create_activity('$tname', \$id, \$rev_id);" . PHP_EOL;
   $str .= "  if (\$act_id <= 0) {" . PHP_EOL;
-  $str .= "    delete('$t_rev', equ('id', \$$t_rev_id));" . PHP_EOL;
+  $str .= "    delete('$t_rev', equ('id', \$rev_id));" . PHP_EOL;
   $str .= "    delete('$tname', equ('id', \$id));" . PHP_EOL;
   $str .= "    return -3;" . PHP_EOL;
   $str .= "  }" . PHP_EOL;
@@ -267,7 +255,7 @@ function generate_reading($tname, $table) {
   $str .= "  \$records = read(['table' => '$tname', 'where' => \$where]);" . PHP_EOL;
   $str .= "  if (count(\$records) <= 0)" . PHP_EOL;
   $str .= "    return FALSE;" . PHP_EOL;
-  $str .= "  if (\$records[0]['oper'] <= 0) // record deleted" . PHP_EOL;
+  $str .= "  if (\$records[0]['oper'] <= 0) // deleted record" . PHP_EOL;
   $str .= "    return FALSE;" . PHP_EOL;
   $str .= "  return \$records[0];" . PHP_EOL;
   $str .= "}" . PHP_EOL;
@@ -280,7 +268,7 @@ function generate_reading_by_name($tname, $table) {
   $str .= "  \$records = read(['table' => '$tname', 'where' => \$where]);" . PHP_EOL;
   $str .= "  if (count(\$records) <= 0)" . PHP_EOL;
   $str .= "    return FALSE;" . PHP_EOL;
-  $str .= "  if (\$records[0]['oper'] <= 0) // record deleted" . PHP_EOL;
+  $str .= "  if (\$records[0]['oper'] <= 0) // deleted record" . PHP_EOL;
   $str .= "    return FALSE;" . PHP_EOL;
   $str .= "  return \$records[0];" . PHP_EOL;
   $str .= "}" . PHP_EOL;
