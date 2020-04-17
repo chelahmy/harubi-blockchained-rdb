@@ -15,8 +15,8 @@ CREATE TABLE `request` (
   `table_id` bigint(20) NOT NULL,
   `row_id` bigint(20) NOT NULL,
   `row_rev_id` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
   `timestamp` datetime NOT NULL,
+  `user_id` bigint(20) NOT NULL,
   `user_rev_id` bigint(20) NOT NULL,
   `signature` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
